@@ -1,3 +1,3 @@
 ## Sample Output
-<div style="margin: auto; max-width:1800; width: 80%;  padding-top: 56.25%; height: 0;"><iframe width="100%" src="/SVGWiz/Fabaceae_AInteractive.svg" frameborder="0" allowfullscreen></iframe></div>
+<div style="margin: auto; width: 80%; height: 0; padding-top: 48%; position: relative;"><iframe style=" position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="Fabaceae_AInteractive.svg" frameborder="0" allowfullscreen></iframe></div>
 
