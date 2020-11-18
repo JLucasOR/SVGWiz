@@ -5,7 +5,7 @@
 </head> <body> 
 <h2>Sample Output</h2>
 <div style="margin: auto; width:90%; height: 0; padding-top: 48%; position: relative;"><iframe style=" position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="Fabaceae_AInteractive.svg" frameborder="0" allowfullscreen></iframe></div>
-
+<h2>Wiz Your SVG</h2>
 <input accept=".svg" type="file" name="Upload" id="Upload" />
 <input type="button" value="Save" onkeypress="download()" onclick="download()" />
 <div class="editArea">
