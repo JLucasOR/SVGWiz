@@ -7,6 +7,9 @@
 .inner{
 	max-width: 1024px;
 }
+.hidden {
+	display:none;
+}
 .editSidebar{
 	grid-column: 1 ;
 	padding-right: 1em;
@@ -14,11 +17,17 @@
 	border-style: solid;
 	
 }
-
+.descArea{
+	border-style: solid;
+	
+}
 .imageArea{
 	
 	grid-column: 2 ;
 	border-style: solid;
 
+}
+.listArea{
+	grid-column:1;
 }
 #LayerList{list-style-type:none;}
