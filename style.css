@@ -4,7 +4,9 @@
 	width: 95%;
 	margin: auto;
 }
-
+.inner{
+	max-width: 1024px;
+}
 .editSidebar{
 	grid-column: 1 ;
 	padding-right: 1em;
