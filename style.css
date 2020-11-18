@@ -1,0 +1,22 @@
+.editArea {
+	display:grid;
+	grid-template-columns: minmax(20px, auto) 1fr;
+	width: 95%;
+	margin: auto;
+}
+
+.editSidebar{
+	grid-column: 1 ;
+	padding-right: 1em;
+	padding-left: 1em;
+	border-style: solid;
+	
+}
+
+.imageArea{
+	
+	grid-column: 2 ;
+	border-style: solid;
+
+}
+#LayerList{list-style-type:none;}
