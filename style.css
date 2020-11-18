@@ -15,17 +15,18 @@
 	padding-right: 1em;
 	padding-left: 1em;
 	border-style: solid;
+	border-width: thin;
 	
 }
 .descArea{
 	border-style: solid;
-	
+	border-width: thin;
 }
 .imageArea{
 	
 	grid-column: 2 ;
 	border-style: solid;
-
+	border-width: thin;
 }
 .listArea{
 	grid-column:1;
