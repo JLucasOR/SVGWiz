@@ -11,12 +11,16 @@
 <p> To apply descriptions to an individual svg, prepare a csv with layer names in the first column and descriptions in the second. If you are using an area for your description text outside of your svg, give it the ID [filename]Desc. For Example, a file named Fabaceae_A.svg would require a description area with the ID "Fabaceae_ADesc"</p>
 <label for="Upload">Select an SVG</label>
 <input accept=".svg" type="file" name="Upload" id="Upload" />
-
 <label for="UpCSV">Add a CSV</label>
 <input accept=".csv" type="file" name="UpCSV" id="UpCSV" />
+<select name="DescType" id="DescType">
+  <option value="Visible">Visible Descriptions</option>
+  <option value="Hidden">Screen-reader Only</option>
+</select>
 <input class="hidden" type="button" id="CSVButton" value="Apply CSV"/>
 <input type="button" value="Save" onkeypress="download()" onclick="download()" />
-
+<input type="button" value="Undo" onkeypress="Undo()" onclick="Undo()" />
+<input type="button" value="Redo" onkeypress="Redo()" onclick="Redo()" />
 <div class="editArea">
 <div id="editSidebar" class="editSidebar">
 <h3 style="text-align:center">Named Layers</h3>
@@ -38,11 +42,47 @@ var HaveCSV = false;
 var filename;
 var CheckList = [];
 var LabelList = [];
+var AriaValue = "false";
+var ActionHistory = [];
+var ActionCount = -1;
 document.getElementById('Upload').addEventListener('change', getFile);
 document.getElementById('UpCSV').addEventListener('change', getCSV);
+document.getElementById('DescType').addEventListener('change', DescToggle);
 document.getElementById("CSVButton").addEventListener("click", applyCSV);
 
+function SaveState(){
+	ActionCount += 1;
+	var data = document.getElementById("imageArea").innerHTML;
+	ActionHistory[ActionCount]= data;
+	
+}
 
+function Undo(){
+	ActionCount = ActionCount - 1;
+	document.getElementById("imageArea").innerHTML = ActionHistory[ActionCount];
+}
+function Redo(){
+	if (ActionHistory.length > ActionCount){
+	ActionCount += 1;
+	document.getElementById("imageArea").innerHTML = ActionHistory[ActionCount];}
+}
+
+
+function DescToggle (event) {
+	if (document.getElementById("DescType").value = "Hidden"){
+		AriaValue = "false"
+	}
+	else {AriaValue = "true"}
+	ToggleArias();
+	SaveState();
+}
+
+function ToggleArias(){
+	var descList = document.getElementsByTagName("desc");
+	for (i = 0; i < descList.length; i++) {
+		descList[i].setAttribute("aria-hidden", AriaValue);
+	}
+}
 function CheckButton() {
 	if (HaveSVG && HaveCSV) {
 		let ThatButton = document.getElementById("CSVButton");
@@ -72,6 +112,7 @@ function getFile(event) {
 		
 		var Area = document.getElementById("imageArea");
 		placeSVGContent(Area, input.files[0]);
+		
 	}
 }
 
@@ -82,6 +123,11 @@ function addScript(imageArea) {
 	NewScript.innerHTML = ScriptContent;
 	imageArea.firstChild.appendChild(NewScript);
 	document.getElementById("DescArea").setAttribute("ID", filename + "Desc")
+	var defzone = document.getElementsByTagName("defs")[0];
+	var newStyle = document.createElement("style");
+	newStyle.setAttribute("type", "text/css")
+	newStyle.innerHTML = ".FeatureGroup :not(text){opacity:0;} *:focus{outline: 0px solid transparent;} .FeatureGroup:hover :not(text){ opacity:0.5;} .FeatureGroup:focus :not(text){opacity:1;} //.Description {font-size: 16px; font-family: OpenSans, Open Sans;}"
+	defzone.appendChild(newStyle);
 	
 }
  function displayDescription(Group) {
@@ -95,6 +141,7 @@ function placeSVGContent(target, file) {
 		addScript(target);
 		HaveSVG = true;
 		CheckButton();
+		SaveState();
 
 
 	}).catch(error => console.log(error));
@@ -193,7 +240,7 @@ function applyCSV() {
 			ThisLayer.setAttribute("focusable","true");
 			ThisLayer.setAttribute("class","FeatureGroup");
 			MyDesc = document.createElement("Desc");
-			MyDesc.setAttribute("aria-hidden","true");
+			MyDesc.setAttribute("aria-hidden", AriaValue);
 			MyDesc.innerHTML = FeatureList[i][1];
 			ThisLayer.appendChild(MyDesc);
 			
@@ -233,7 +280,7 @@ function SetDesc(){
 	}
 
 	}
-	
+	SaveState();
 }
 
 
@@ -242,5 +289,6 @@ function SetDesc(){
 
 
 </script>
+
 
 
