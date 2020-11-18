@@ -10,7 +10,7 @@
 <input type="button" value="Save" onkeypress="download()" onclick="download()" />
 <div class="editArea">
 <div id="editSidebar" class="editSidebar">
-<h3 style="text-align:center";>Named Layers</h3>
+<h3 style="text-align:center">Named Layers</h3>
 <ul id="LayerList"></ul>
 </div>
 <div id="imageArea" class="imageArea"></div>
