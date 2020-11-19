@@ -197,7 +197,9 @@ function addChildren(Parent, List){
 				List.appendChild(NewSublist);
 				addChildren(layers[i], NewSublist);}
 		}
+		
 	}
+	if (List.children.length  == 0){List.parentNode.removeChild(List);}
 }
 
 function getLayers(Image) {
