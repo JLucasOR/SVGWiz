@@ -30,7 +30,7 @@
 }
 .listArea{
 	grid-column:1;
-		border-style: solid;
+	border-style: solid;
 	border-width: thin;
 }
-#LayerList{list-style-type:none;}
+ul{list-style-type:none;}
