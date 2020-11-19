@@ -8,7 +8,7 @@
 <h2>Sample Output</h2>
 <div style="margin: auto; width:90%; height: 0; padding-top: 48%; position: relative;"><iframe style=" position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="Fabaceae_AInteractive.svg" frameborder="0" allowfullscreen></iframe></div>
 <h2>Wiz your SVG</h2>
-<p> To apply descriptions to an individual svg, prepare a csv with layer names in the first column and descriptions in the second. If you are using an area for your description text outside of your svg, give it the ID [filename]Desc and the attribute aria-live="assertive". For Example, a file named Fabaceae_A.svg would require a description area with the attributes ID="Fabaceae_ADesc" aria-live="assertive". </p>
+<p> To apply descriptions to an individual svg, prepare a csv with layer names in the first column and descriptions in the second. If you are using an area for your description text outside of your svg, give it the ID [filename]Desc. For Example, a file named Fabaceae_A.svg would require a description area with the ID "Fabaceae_ADesc"</p>
 <label for="Upload">Select an SVG</label>
 <input accept=".svg" type="file" name="Upload" id="Upload" />
 <label for="UpCSV">Add a CSV</label>
@@ -171,18 +171,14 @@ function removeAllChildNodes(parent) {
 		parent.removeChild(parent.firstChild);
 	}
 }
+var CheckCount = -1;
+const layerList = document.getElementById("LayerList");
 
-function getLayers(Image) {
-	const layerList = document.getElementById("LayerList");
-	removeAllChildNodes(layerList);
-	CheckList = [];
-	LabelList = [];
-	let layers = Image.querySelectorAll("g,rect,text");
-	var i;
-	var x = -1;
-	for (i = 0; i < layers.length; i++) {
+function addChildren(Parent, List){
+	let layers = Parent.children;
+	for (var i = 0; i < layers.length; i++) {
 		if (layers[i].id) {
-			x += 1
+			CheckCount += 1
 			let NewLayer = document.createElement("li");
 			let LayerBox = document.createElement("input");
 			LayerBox.type = "Checkbox";
@@ -191,13 +187,25 @@ function getLayers(Image) {
 			let LayerLabel = document.createElement("label");
 			LayerLabel.setAttribute("for", LayerBox.name);
 			LayerLabel.innerHTML = layers[i].id;
-			layerList.appendChild(NewLayer);
+			List.appendChild(NewLayer);
 			NewLayer.appendChild(LayerBox);
-			CheckList[x] = (LayerBox);
-			LabelList[x] = (LayerLabel);
+			CheckList[CheckCount] = (LayerBox);
+			LabelList[CheckCount] = (LayerLabel);
 			NewLayer.appendChild(LayerLabel);
+			if (typeof layers[i].firstChild  != "undefined"){
+				let NewSublist = document.createElement("ul");
+				List.appendChild(NewSublist);
+				addChildren(layers[i], NewSublist);}
 		}
 	}
+}
+
+function getLayers(Image) {
+	removeAllChildNodes(layerList);
+	CheckList = [];
+	LabelList = [];
+	var CheckCount = -1;
+	addChildren(Image.firstChild, layerList);
 }
 
 
@@ -250,8 +258,10 @@ function applyCSV() {
 function SetDesc(){
 	//find each checked box
 	var i
+	var AnyCheck = false;
 	for (i = 0; i < CheckList.length; i++) {
 		if(CheckList[i].checked){	
+			AnyCheck = true;
 			//find that layer
 			var Image = document.getElementById("imageArea");
 			var DescLayer = document.getElementById(LabelList[i].innerHTML);
@@ -259,7 +269,6 @@ function SetDesc(){
 			//aria-live="assertive" xmlns="http://www.w3.org/1999/xhtml"
 			
 			var replacement = document.createElementNS('http://www.w3.org/2000/svg',"foreignObject");
-
 			var InnerP = document.createElement("p")
 			InnerP.setAttribute("ID",filename + "Desc")
 			//<foreignObject id="DescriptionArea" class="cls-203" x="5.57" y="254.29" width="421.71" height="108">
@@ -276,11 +285,11 @@ function SetDesc(){
 			InnerP.setAttribute("aria-live","assertive")
 			InnerP.setAttribute("xmlns","http://www.w3.org/1999/xhtml")
 			InnerP.innerHTML = "Select any item for more information."
-			
 	}
 
 	}
-	SaveState();
+	if (AnyCheck == false){alert("No layers selected");}
+	else{SaveState();}
 }
 
 
