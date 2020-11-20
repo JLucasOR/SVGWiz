@@ -22,6 +22,10 @@
 	border-width: thin;
 	
 }
+.ExampleSubarea{
+	border-style: solid;
+	border-width: thin;
+}
 .descArea{
 	border-style: solid;
 	border-width: thin;
