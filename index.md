@@ -32,7 +32,78 @@
 <div id="DescArea" class="DescArea"></div>
 <div id="listArea" class="listArea"></div>
 
+<h2>Help</h2>
+<h3>Sample Files</h3>
+Download <a href="https://github.com/JLucasOR/SVGWiz/raw/gh-pages/SampleFiles.zip">these sample files</a> and run them through the Wiz above to see it in action. Each image has a paired description csv. Once you have loaded both into the Wiz, you'll see an "apply csv" button, which will pair any descriptions from the csv with the appropriate layers. In the layer panel on the left, select the description area layer and hit the "make description area" button. You can now save the finished svg and open it in any browser.
 
+<h3>SVG Guidelines</h3>
+Your SVG should have a some base imagery, which does not change, and multiple feature groups. Each feature group must have a unique layer name and only contain text and focus indicator fills. 
+<div class="ExampleArea">
+	<div class="ExampleSubarea"><figure>
+		<img src="/Images/FabaceaeBack.png" alt="Fabaceae vector Background Layers Only" style="width:100%"><figcaption>
+			The non-interactive background of the Fabaceae graphic.
+		</figcaption></figure>
+	</div>
+	<div class="ExampleSubarea">
+			<img src="/Images/FabaceaeFeatures.png" alt="Fabaceae vector Feature Layers Only" style="width:100%"><figcaption>
+			All interactive elements of the Fabaceae graphic, with the background hidden. 
+		</figcaption></figure>
+	</div>
+	<div class="ExampleSubarea">
+		<img src="/Images/FabaceaeAll.png" alt="Fabaceae vector All Layers" style="width:100%"><figcaption>
+			With all layers visible, the focus indicator for the "Flower" group is selected. This rectangle will have a 0% opacity style on it unless any member of it's group is hovered over, keyboard navigated to, or clicked on. This gives the text itself a larger selection area and allows you to link features within a graphic with it's name in a key.
+		</figcaption></figure>
+	</div>
+</div>
+
+<h3>Preparing a CSV</h3>
+CSV stands for Comma Separated Values. The easiest way to produce a CSV is to make a simple table in your favorite spreadsheet software and then export it. 
+In Google Sheets, you will find this option under File > Download. 
+For SVGWiz to automatically pair your written descriptions to the appropriate layers, the layer name must match the appropriate cell in your table. For an individual image run through the wiz above, you would need a 2 column table with layer names in the first column and descriptions in the second, like the one below. 
+<div class="ExampleArea">
+	<div class="ExampleSubarea"><figure>
+		<img src="/Images/FabaceaeLayers.png" alt="Fabaceae vector's Layer List" style="width:100%"><figcaption>
+			The layer list of the Fabaceae graphic.
+		</figcaption></figure>
+	</div>
+	<div class="ExampleSubarea">
+<table cellspacing="0" cellpadding="0" dir="ltr" border="1">
+<tbody>
+<tr>
+<td>Pinnate</td>
+<td>Pea plants typically have pinnately compound leaves.<br /> A compound leaf is one leaf separated into multiple distinct leaflets, these are clear on woody plants as the rachis will be flexible like the stem of the leaf. Compound leaves can also be distinguished by the placement of their stipules - these will only occur at the attachment point of an entire leaf, not that of a leaflet. <br /> Pinnate: Arranged symmetrically on opposite sides of a central axis, similar to a feather. A leaf is odd pinnate when it has one terminal leaf at the end, and even-pinnate otherwise.</td>
+</tr>
+<tr>
+<td>Legume</td>
+<td>Plants in the pea family have pea-like fruit, called legumes.</td>
+</tr>
+<tr>
+<td>Keel</td>
+<td>The two lower petals of a pea flower, fused at their apex and remaining free at the base, forming a boat-like structure.</td>
+</tr>
+<tr>
+<td>Wing</td>
+<td>The petals of a pea flower which surround the keel.</td>
+</tr>
+<tr>
+<td>Banner</td>
+<td>The upper petal of a pea flower- a single petal with two lobes though it looks like two that are fused together.</td>
+</tr>
+<tr>
+<td>Flower</td>
+<td>The reproductive structure of the plant. Pea flowers are recognizable by their banner, wing, and keel.</td>
+</tr>
+</tbody>
+</table>
+</div>
+	<div class="ExampleSubarea"><figure>
+		<img src="/Images/CSV.png" alt="Google Sheets export menu" style="width:100%"><figcaption>
+			How to export a csv from Google Sheets.
+		</figcaption></figure>
+	</div>
+	</div>
+<h3>Why is the Layer List Backwards?</h3>
+The layers are presented in draw order, which also happens to be tab order for keyboard navigation. This is the opposite of the order you will see them in Illustrator or Inksckape. 
  </body> 
 
 
