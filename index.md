@@ -39,21 +39,21 @@ Download <a href="https://github.com/JLucasOR/SVGWiz/raw/gh-pages/SampleFiles.zi
 <h3>SVG Guidelines</h3>
 Your SVG should have a some base imagery, which does not change, and multiple feature groups. Each feature group must have a unique layer name and only contain text and focus indicator fills. 
 <div class="ExampleArea">
-	<div class="ExampleSubarea">
+	<div class="ExampleSubarea" style="grid-column: 1;">
 		<figure>
 		<img src="https://jlucasor.github.io/SVGWiz/Images/FabaceaeBack.png" alt="Fabaceae vector Background Layers Only" style="width:100%"><figcaption>
 			The non-interactive background of the Fabaceae graphic.
 		</figcaption>
 		</figure>
 	</div>
-	<div class="ExampleSubarea">
+	<div class="ExampleSubarea" style="grid-column: 2;">
 		<figure>
 			<img src="https://jlucasor.github.io/SVGWiz/Images/FabaceaeFeatures.png" alt="Fabaceae vector Feature Layers Only" style="width:100%"><figcaption>
 			All interactive elements of the Fabaceae graphic, with the background hidden. 
 		</figcaption>
 		</figure>
 	</div>
-	<div class="ExampleSubarea">
+	<div class="ExampleSubarea" style="grid-column: 3;">
 		<figure>
 		<img src="https://jlucasor.github.io/SVGWiz/Images/FabaceaeAll.png" alt="Fabaceae vector All Layers" style="width:100%"><figcaption>
 			With all layers visible, the focus indicator for the "Flower" group is selected. This rectangle will have a 0% opacity style on it unless any member of it's group is hovered over, keyboard navigated to, or clicked on. This gives the text itself a larger selection area and allows you to link features within a graphic with it's name in a key.
@@ -67,14 +67,14 @@ CSV stands for Comma Separated Values. The easiest way to produce a CSV is to ma
 In Google Sheets, you will find this option under File > Download. 
 For SVGWiz to automatically pair your written descriptions to the appropriate layers, the layer name must match the appropriate cell in your table. For an individual image run through the wiz above, you would need a 2 column table with layer names in the first column and descriptions in the second, like the one below. 
 <div class="ExampleArea">
-	<div class="ExampleSubarea">
+	<div class="ExampleSubarea" style="grid-column: 1;">
 		<figure>
 		<img src="https://jlucasor.github.io/SVGWiz/Images/FabaceaeLayers.png" alt="Fabaceae vector's Layer List" style="width:100%"><figcaption>
 			The layer list of the Fabaceae graphic.
 		</figcaption>
 		</figure>
 	</div>
-	<div class="ExampleSubarea">
+	<div class="ExampleSubarea" style="grid-column: 2;">
 <table cellspacing="0" cellpadding="0" dir="ltr" border="1">
 <tbody>
 <tr>
@@ -104,7 +104,7 @@ For SVGWiz to automatically pair your written descriptions to the appropriate la
 </tbody>
 </table>
 </div>
-	<div class="ExampleSubarea"><figure>
+	<div class="ExampleSubarea" style="grid-column: 3;"><figure>
 		<img src="/Images/CSV.png" alt="Google Sheets export menu" style="width:100%"><figcaption>
 			How to export a csv from Google Sheets.
 		</figcaption></figure>
