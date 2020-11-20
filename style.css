@@ -4,6 +4,10 @@
 	width: 95%;
 	margin: auto;
 }
+.ExampleArea{
+	display:grid;
+	grid-auto-columns: auto;
+}
 .inner{
 	max-width: 1024px;
 }
