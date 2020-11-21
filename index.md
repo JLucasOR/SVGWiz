@@ -162,8 +162,8 @@ function SaveState(){
 }
 
 function Undo(){
-	ActionCount = ActionCount - 1;
-	document.getElementById("imageArea").innerHTML = ActionHistory[ActionCount];
+	if (ActionCount - 1 > -1){ActionCount = ActionCount - 1;
+	document.getElementById("imageArea").innerHTML = ActionHistory[ActionCount];}
 }
 function Redo(){
 	if (ActionHistory.length > ActionCount){
