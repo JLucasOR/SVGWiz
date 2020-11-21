@@ -218,6 +218,7 @@ function getFile(event) {
 		placeSVGContent(Area, input.files[0]);
 		ActionCount = -1;
 		ActionHistory = [];
+		SaveState();
 		
 	}
 }
@@ -253,8 +254,6 @@ function placeSVGContent(target, file) {
 		addScript(target);
 		HaveSVG = true;
 		CheckButton();
-		SaveState();
-
 
 	}).catch(error => console.log(error));
 }
