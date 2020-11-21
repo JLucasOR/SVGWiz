@@ -30,7 +30,7 @@
 	<label for="DescSizer">Description Font Size:</label>
 	<input type="number" id="DescSizer" value="16" style="width:4em;" name="DescSizer">
 	<label for="DescSet">Starting Description:</label>
-	<input type="text" id="DescSet" value="Select any item for more information."name="DescSet">
+	<input type="text" id="DescSet" value="Select any item for more information." name="DescSet">
 </div>
 <div class="editArea">
 
