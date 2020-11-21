@@ -119,6 +119,7 @@ The layers are presented in draw order, which also happens to be tab order for k
 var HaveSVG = false;
 var HaveCSV = false;
 var filename;
+var DefDesc = "Select any item for more information.";
 var CheckList = [];
 var LabelList = [];
 var AriaValue = "false";
@@ -194,14 +195,14 @@ function getFile(event) {
 		
 	}
 }
-
+var DescArea = document.getElementById("DescArea")
 function addScript(imageArea) {
 	let NewScript = document.createElement("script");
 	NewScript.setAttribute("type", "text/javascript");
 	var ScriptContent = "<![CDATA[function displayDescription(Group) {document.getElementById('" + filename + "Desc').firstChild.data = Group.getElementsByTagName('desc')[0].innerHTML;}]]>";
 	NewScript.innerHTML = ScriptContent;
 	imageArea.firstChild.appendChild(NewScript);
-	document.getElementById("DescArea").setAttribute("ID", filename + "Desc")
+	DescArea.setAttribute("ID", filename + "Desc")
 	var defzone = document.getElementsByTagName("defs")[0];
 	var newStyle = document.createElement("style");
 	newStyle.setAttribute("type", "text/css")
@@ -292,6 +293,7 @@ function getLayers(Image) {
 
 
 function download() {
+	DescP.innerHTML = DefDesc
 	var data = document.getElementById("imageArea").innerHTML;
 	var file = new Blob([data], {
 		type: "text"
@@ -336,6 +338,7 @@ function applyCSV() {
 			
 		}
 	}}
+var DescP;
 function SetDesc(){
 	//find each checked box
 	var i
@@ -348,10 +351,9 @@ function SetDesc(){
 			var DescLayer = document.getElementById(LabelList[i].innerHTML);
 			// set layer id
 			//aria-live="assertive" xmlns="http://www.w3.org/1999/xhtml"
-			
 			var replacement = document.createElementNS('http://www.w3.org/2000/svg',"foreignObject");
-			var InnerP = document.createElement("p")
-			InnerP.setAttribute("ID",filename + "Desc")
+			DescP = document.createElement("p")
+			DescP.setAttribute("ID",filename + "Desc")
 			//<foreignObject id="DescriptionArea" class="cls-203" x="5.57" y="254.29" width="421.71" height="108">
 			//<p id="Description" class="Description" aria-live="assertive" xmlns="http://www.w3.org/1999/xhtml"> Select any item in the key for more information.</p>
 			//</foreignObject>
@@ -362,10 +364,10 @@ function SetDesc(){
 			}
 			DescLayer.parentNode.replaceChild(replacement, DescLayer);
 			//add wordwrap
-			replacement.appendChild(InnerP);
-			InnerP.setAttribute("aria-live","assertive")
-			InnerP.setAttribute("xmlns","http://www.w3.org/1999/xhtml")
-			InnerP.innerHTML = "Select any item for more information."
+			replacement.appendChild(DescP);
+			DescP.setAttribute("aria-live","assertive")
+			DescP.setAttribute("xmlns","http://www.w3.org/1999/xhtml")
+			DescP.innerHTML = DefDesc
 	}
 
 	}
