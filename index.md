@@ -129,6 +129,16 @@ For SVGWiz to automatically pair your written descriptions to the appropriate la
 	</div>
 <h3>Why is the Layer List Backwards?</h3>
 The layers are presented in draw order, which also happens to be tab order for keyboard navigation. This is the opposite of the order you will see them in Illustrator or Inkscape. 
+
+<h3>Tool Explanations</h3>
+<h4>Visible Descriptions vs Screen-Reader Only</h4>
+	This will not visually alter your svg, but toggles the aria-hidden flag on the description elements. You should only switch this if your intention is to have descriptions for screen-reader users which are not printed on the screen. 
+<h4>Make Description Area</h4>
+	Select one of your layers from this list and hit this button to convert it to a description area. This will work best if your layer is a named rectangle. 
+<h4>Make Interactive</h4>
+	Select one or more of your layers and hit this button to make them keyboard navigable. The layer order as printed on this list will be their tab order.
+<h4>Manual Description</h4>
+	Use this field and the "apply description" button to manually add a description to any selected layers. This can be used to correct an existing description.
  </body> 
 
 
