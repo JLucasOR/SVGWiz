@@ -166,7 +166,7 @@ function Undo(){
 	document.getElementById("imageArea").innerHTML = ActionHistory[ActionCount];}
 }
 function Redo(){
-	if (ActionHistory.length > ActionCount){
+	if (ActionHistory.length > ActionCount + 1){
 	ActionCount += 1;
 	document.getElementById("imageArea").innerHTML = ActionHistory[ActionCount];}
 }
