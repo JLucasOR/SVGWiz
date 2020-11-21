@@ -111,7 +111,7 @@ For SVGWiz to automatically pair your written descriptions to the appropriate la
 	</div>
 	</div>
 <h3>Why is the Layer List Backwards?</h3>
-The layers are presented in draw order, which also happens to be tab order for keyboard navigation. This is the opposite of the order you will see them in Illustrator or Inksckape. 
+The layers are presented in draw order, which also happens to be tab order for keyboard navigation. This is the opposite of the order you will see them in Illustrator or Inkscape. 
  </body> 
 
 
