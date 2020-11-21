@@ -1,5 +1,6 @@
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.11/jquery.csv.min.js" integrity="sha512-Y8iWYJDo6HiTo5xtml1g4QqHtl/PO1w+dmUpQfQSOTqKNsMhExfyPN2ncNAe9JuJUSKzwK/b6oaNPop4MXzkwg==" crossorigin="anonymous"></script>
 
 <link rel="stylesheet" href="style.css">
@@ -286,7 +287,7 @@ function getLayers(Image) {
 	removeAllChildNodes(layerList);
 	CheckList = [];
 	LabelList = [];
-	var CheckCount = -1;
+	CheckCount = -1;
 	addChildren(Image.firstChild, layerList);
 }
 
@@ -341,9 +342,8 @@ function applyCSV() {
 var DescP;
 function SetDesc(){
 	//find each checked box
-	var i
 	var AnyCheck = false;
-	for (i = 0; i < CheckList.length; i++) {
+	for (var i = 0; i < CheckList.length; i++) {
 		if(CheckList[i].checked){	
 			AnyCheck = true;
 			//find that layer
