@@ -216,6 +216,8 @@ function getFile(event) {
 		
 		var Area = document.getElementById("imageArea");
 		placeSVGContent(Area, input.files[0]);
+		ActionCount = -1;
+		ActionHistory = [];
 		
 	}
 }
