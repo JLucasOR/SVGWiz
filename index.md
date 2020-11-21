@@ -216,9 +216,7 @@ function getFile(event) {
 		
 		var Area = document.getElementById("imageArea");
 		placeSVGContent(Area, input.files[0]);
-		ActionCount = -1;
-		ActionHistory = [];
-		SaveState();
+
 		
 	}
 }
@@ -254,6 +252,9 @@ function placeSVGContent(target, file) {
 		addScript(target);
 		HaveSVG = true;
 		CheckButton();
+		ActionCount = -1;
+		ActionHistory = [];
+		SaveState();
 
 	}).catch(error => console.log(error));
 }
