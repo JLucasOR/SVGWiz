@@ -9,24 +9,40 @@
 <h2>Sample Output</h2>
 <div style="margin: auto; width:90%; height: 0; padding-top: 48%; position: relative;"><iframe style=" position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="Fabaceae_AInteractive.svg" frameborder="0" allowfullscreen></iframe></div>
 <h2>Wiz your SVG</h2>
-<p> To apply descriptions to an individual svg, prepare a csv with layer names in the first column and descriptions in the second. If you are using an area for your description text outside of your svg, give it the ID [filename]Desc. For Example, a file named Fabaceae_A.svg would require a description area with the ID "Fabaceae_ADesc"</p>
+<p> To apply descriptions to an individual svg, prepare a csv with layer names in the first column and descriptions in the second. If you are using an area for your description text outside of your svg, give it the ID [filename]Desc and the attribute aria-live="assertive". For Example, a file named Fabaceae_A.svg would require a description area with the attributes id="Fabaceae_ADesc" aria-live="assertive". </p>
+
+<div class=Toolbar>
 <label for="Upload">Select an SVG</label>
 <input accept=".svg" type="file" name="Upload" id="Upload" />
 <label for="UpCSV">Add a CSV</label>
 <input accept=".csv" type="file" name="UpCSV" id="UpCSV" />
+<input class="hidden" type="button" id="CSVButton" value="Apply CSV"/>
+<input type="button" value="Save" onkeypress="download()" onclick="download()" />
+
+</div>
+<div class=Toolbar> 
+<input type="button" value="Undo" onkeypress="Undo()" onclick="Undo()" />
+<input type="button" value="Redo" onkeypress="Redo()" onclick="Redo()" />
 <select name="DescType" id="DescType">
   <option value="Visible">Visible Descriptions</option>
   <option value="Hidden">Screen-reader Only</option>
 </select>
-<input class="hidden" type="button" id="CSVButton" value="Apply CSV"/>
-<input type="button" value="Save" onkeypress="download()" onclick="download()" />
-<input type="button" value="Undo" onkeypress="Undo()" onclick="Undo()" />
-<input type="button" value="Redo" onkeypress="Redo()" onclick="Redo()" />
+	<label for="DescSizer">Description Font Size:</label>
+	<input type="number" id="DescSizer" value="16" style="width:4em;" name="DescSizer">
+	<label for="DescSet">Starting Description:</label>
+	<input type="text" id="DescSet" value="Select any item for more information."name="DescSet">
+</div>
 <div class="editArea">
+
 <div id="editSidebar" class="editSidebar">
 <h3 style="text-align:center">Named Layers</h3>
 <ul id="LayerList"></ul>
-<input type="button" value="Make Description Area" onkeypress="SetDesc()" onclick="SetDesc()" />
+<input type="button" value="Make Description Area" onkeypress="SetDesc()" onclick="SetDesc()" /><br>
+<input type="button" value="Make Interactive" onkeypress="SetInt()" onclick="SetInt()" /><br>
+	<label for="DescSizer">Manual Description:</label><br>
+	<input type="text" id="ManDesc" name="ManDesc"><br>
+	<input type="button" value="Apply Description" onkeypress="AppDesc()" onclick="AppDesc()" /><br>
+	
 </div>
 <div id="imageArea" class="imageArea"></div>
 </div>
@@ -123,14 +139,21 @@ var filename;
 var DefDesc = "Select any item for more information.";
 var CheckList = [];
 var LabelList = [];
-var AriaValue = "false";
+var AriaValue = "true";
 var ActionHistory = [];
 var ActionCount = -1;
 document.getElementById('Upload').addEventListener('change', getFile);
 document.getElementById('UpCSV').addEventListener('change', getCSV);
-document.getElementById('DescType').addEventListener('change', DescToggle);
+document.getElementById('DescType').addEventListener('input', DescToggle);
 document.getElementById("CSVButton").addEventListener("click", applyCSV);
+document.getElementById('DescSizer').addEventListener('input', DescResize);
+document.getElementById('DescSet').addEventListener('input', DescSetter);
 
+function DescSetter(){
+	DefDesc = document.getElementById("DescSet").value;
+	DescP.innerHTML = DefDesc
+	
+}
 function SaveState(){
 	ActionCount += 1;
 	var data = document.getElementById("imageArea").innerHTML;
@@ -197,6 +220,7 @@ function getFile(event) {
 	}
 }
 var DescArea = document.getElementById("DescArea")
+var MyStyle
 function addScript(imageArea) {
 	let NewScript = document.createElement("script");
 	NewScript.setAttribute("type", "text/javascript");
@@ -205,11 +229,16 @@ function addScript(imageArea) {
 	imageArea.firstChild.appendChild(NewScript);
 	DescArea.setAttribute("ID", filename + "Desc")
 	var defzone = document.getElementsByTagName("defs")[0];
-	var newStyle = document.createElement("style");
-	newStyle.setAttribute("type", "text/css")
-	newStyle.innerHTML = ".FeatureGroup :not(text){opacity:0;} *:focus{outline: 0px solid transparent;} .FeatureGroup:hover :not(text){ opacity:0.5;} .FeatureGroup:focus :not(text){opacity:1;} //.Description {font-size: 16px; font-family: OpenSans, Open Sans;}"
-	defzone.appendChild(newStyle);
+	MyStyle = document.createElement("style");
+	MyStyle.setAttribute("type", "text/css")
+	MyStyle.innerHTML = ".FeatureGroup :not(text){opacity:0;} *:focus{outline: 0px solid transparent;} .FeatureGroup:hover :not(text){ opacity:0.5;} .FeatureGroup:focus :not(text){opacity:1;} .Description {font-size: 16px; font-family: OpenSans, Open Sans;}"
+	defzone.appendChild(MyStyle);
 	
+}
+
+function DescResize(event){
+	let NewStyle = ".FeatureGroup :not(text){opacity:0;} *:focus{outline: 0px solid transparent;} .FeatureGroup:hover :not(text){ opacity:0.5;} .FeatureGroup:focus :not(text){opacity:1;} .Description {font-size: " + document.getElementById("DescSizer").value + "px; font-family: OpenSans, Open Sans;}";
+	MyStyle.innerHTML = NewStyle;
 }
  function displayDescription(Group) {
         document.getElementById(filename + "Desc").innerHTML = Group.getElementsByTagName('desc')[0].innerHTML;
@@ -340,6 +369,7 @@ function applyCSV() {
 		}
 	}}
 var DescP;
+
 function SetDesc(){
 	//find each checked box
 	var AnyCheck = false;
@@ -366,21 +396,77 @@ function SetDesc(){
 			//add wordwrap
 			replacement.appendChild(DescP);
 			DescP.setAttribute("aria-live","assertive")
+			DescP.setAttribute("class","Description")
 			DescP.setAttribute("xmlns","http://www.w3.org/1999/xhtml")
 			DescP.innerHTML = DefDesc
 	}
-
 	}
 	if (AnyCheck == false){alert("No layers selected");}
 	else{SaveState();}
 }
 
+function SetInt(){
+	//find each checked box
+	var AnyCheck = false;
+	for (var i = 0; i < CheckList.length; i++) {
+		if(CheckList[i].checked){	
+			AnyCheck = true;
+			var ThisLayer = document.getElementById(LabelList[i].innerHTML);
+			ThisLayer.setAttribute("tabindex","0");
+			ThisLayer.setAttribute("onkeypress","displayDescription(this)");
+			ThisLayer.setAttribute("onclick","displayDescription(this)");
+			ThisLayer.setAttribute("focusable","true");
+			ThisLayer.setAttribute("class","FeatureGroup");
+			
+			
+			
+			}}
+		if (AnyCheck == false){alert("No layers selected");}
+		else{SaveState();}
+}
+
+function AppDesc(){
+	//find each checked box
+	var AnyCheck = false;
+	for (var i = 0; i < CheckList.length; i++) {
+		if(CheckList[i].checked){	
+			var ThisLayer = document.getElementById(LabelList[i].innerHTML);
+			AnyCheck = true;
+			var ChildList = ThisLayer.children; 
+			var HasDesc = false;
+			var MyDesc;
+			for (var c = 0; c < ChildList.length; c++){
+				if (ChildList[c].tagName == "DESC"){MyDesc = ChildList[c]; HasDesc = true;}
+				}
+			if (HasDesc == false){	MyDesc= document.createElement("Desc");}
+			MyDesc.setAttribute("aria-hidden", AriaValue);
+			MyDesc.innerHTML = document.getElementById("ManDesc").value;
+			ThisLayer.appendChild(MyDesc);
+
+			
+			}}
+		if (AnyCheck == false){alert("No layers selected");}
+		else{SaveState();}
+}		
+
+
+
+function ListTemplate(){
+	//find each checked box
+	var AnyCheck = false;
+	for (var i = 0; i < CheckList.length; i++) {
+		if(CheckList[i].checked){	
+			AnyCheck = true;}}
+		if (AnyCheck == false){alert("No layers selected");}
+		else{SaveState();}
+}			
 
 
 
 
 
 </script>
+
 
 
 
