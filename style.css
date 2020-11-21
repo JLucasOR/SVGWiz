@@ -1,7 +1,6 @@
 .editArea {
 	display:grid;
 	grid-template-columns: minmax(20px, auto) 1fr;
-	width: 95%;
 	margin: auto;
 }
 .ExampleArea{
@@ -22,7 +21,7 @@
 	border-width: thin;
 	
 }
-.ExampleSubarea{
+.ExampleSubarea, .Toolbar {
 	border-style: solid;
 	border-width: thin;
 }
