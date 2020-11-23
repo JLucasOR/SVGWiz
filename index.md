@@ -299,20 +299,19 @@ const layerList = document.getElementById("LayerList");
 var NameCount;
 function NameGroups(){
 	NameCount = 0;
-	NameChildren(document.getElementById("imageArea"),"g");	
+	NameChildren(document.getElementById("imageArea"),"G");	
 	getLayers(document.getElementById("imageArea"));
 }
 function NameRects(){
 	NameCount = 0;
-	NameChildren(document.getElementById("imageArea"),"rect");	
+	NameChildren(document.getElementById("imageArea"),"RECT");	
 	getLayers(document.getElementById("imageArea"));
 }
 function NameChildren(Layer, Type){
 	var Layers = Layer.children;
-	alert(Layers.length);
 	for (var i = 0; i < Layers.length; i++) {
-		if (Layers[i].tagName == "g"){
-			Layers[i].setAttribute("Id","G."+NameCount);
+		if (Layers[i].tagName == Type){
+			Layers[i].setAttribute("Id", Type + NameCount);
 			NameCount += 1;
 		}
 		if (Layers[i].children.length > 0){NameChildren(Layers[i],Type);}
