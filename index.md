@@ -300,18 +300,18 @@ var NameCount;
 function NameGroups(){
 	NameCount = 1;
 	NameChildren(document.getElementById("imageArea"),"g");	
-	getLayers(document.getElementById("imageArea").firstChild);
+	getLayers(document.getElementById("imageArea"));
 }
 function NameRects(){
 	NameCount = 1;
 	NameChildren(document.getElementById("imageArea"),"rect");	
-	getLayers(document.getElementById("imageArea").firstChild);
+	getLayers(document.getElementById("imageArea"));
 }
 function NameChildren(Layer, Type){
 	var Layers = Layer.children;
 	for (var i = 0; i < Layers.length; i++) {
 		if (Layers[i].tagName == Type){
-			Layers[i].setAttribute("Id", Type + NameCount);
+			Layers[i].setAttribute("id", Type + NameCount);
 			NameCount += 1;
 		}
 		if (Layers[i].children.length > 0){NameChildren(Layers[i],Type);}
