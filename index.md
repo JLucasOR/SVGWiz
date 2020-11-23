@@ -296,32 +296,30 @@ function removeAllChildNodes(parent) {
 }
 var CheckCount = -1;
 const layerList = document.getElementById("LayerList");
-
+var NameCount;
 function NameGroups(){
-	var Layers = document.getElementById("imageArea").children;
-	alert(Layers.length);
-	var c  = 0;
-	for (var i = 0; i < Layers.length; i++) {
-		if (Layers[i].tagName == "g"){
-			Layers[i].setAttribute("Id","Group"+c);
-			c += 1;
-			}
-	}
+	NameCount = 0;
+	NameChildren(document.getElementById("imageArea"),"g");	
 	getLayers(document.getElementById("imageArea"));
 }
 function NameRects(){
-	var Layers = document.getElementById("imageArea").children;
-	alert(Layers.length);
-	var c  = 0;
-	for (var i = 0; i < Layers.length; i++) {
-		if (Layers[i].tagName == "rect"){
-			alert(Layers[i].value);
-			Layers[i].setAttribute("Id","Rect"+c);
-			c += 1;
-			}
-	}
+	NameCount = 0;
+	NameChildren(document.getElementById("imageArea"),"rect");	
 	getLayers(document.getElementById("imageArea"));
+}
+function NameChildren(Layer, Type){
+	var Layers = Layer.children;
+	alert(Layers.length);
+	for (var i = 0; i < Layers.length; i++) {
+		if (Layers[i].tagName == "g"){
+			Layers[i].setAttribute("Id","G."+NameCount);
+			NameCount += 1;
+		}
+		if (Layers[i].children.length > 0){NameChildren(Layers[i],Type;)}
+	}
+
 	
+
 }
 
 function addChildren(Parent, List){
