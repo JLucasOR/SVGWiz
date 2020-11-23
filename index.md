@@ -311,7 +311,7 @@ function NameChildren(Layer, Type){
 	var Layers = Layer.children;
 	for (var i = 0; i < Layers.length; i++) {
 		if (Layers[i].tagName == Type){
-			if (Layers[i].id == "undefined"){
+			if (Layers[i].id == ""){
 			Layers[i].setAttribute("id", Type + NameCount);
 			NameCount += 1;}
 		}
