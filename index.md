@@ -132,7 +132,7 @@ The layers are presented in draw order, which also happens to be tab order for k
 
 <h3>Tool Explanations</h3>
 <h4>Visible Descriptions vs Screen-Reader Only</h4>
-	This will not visually alter your svg, but toggles the aria-hidden flag on the description elements. You should only switch this if your intention is to have descriptions for screen-reader users which are not printed on the screen. 
+	This will not visually alter your svg, but toggles the aria-hidden flag on the description elements. You should only switch this if your intention is to have descriptions for screen-reader users which are not printed on the screen. These descriptions will be printed in the space below the image while you are in the editor. 
 <h4>Make Description Area</h4>
 	Select one of your layers from this list and hit this button to convert it to a description area. At this time, the description area must be a named rectangle. 
 <h4>Make Interactive</h4>
