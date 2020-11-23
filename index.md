@@ -396,9 +396,9 @@ function SetDesc(){
 			DescLayer = document.getElementById(LabelList[i].innerHTML);
 			// set layer id
 			//aria-live="assertive" xmlns="http://www.w3.org/1999/xhtml"
-			if (!DescLayer.hasAttribute("x")){
+			if (!(DescLayer.hasAttribute("x"))){
 				DescChildren = DescLayer.children;
-				if (!(typeof DescChildren[x] == "undefined")){
+				if (!(typeof DescChildren[0] == "undefined")){
 				for (var x = 0; x < CheckList.length; x++) {
 					if (DescChildren[x].hasAttribute("x")	){
 						DescLayer = DescChildren[x];
