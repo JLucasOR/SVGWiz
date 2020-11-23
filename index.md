@@ -399,7 +399,7 @@ function SetDesc(){
 			if (!(DescLayer.hasAttribute("x"))){
 				DescChildren = DescLayer.children;
 				if (!(typeof DescChildren[0] == "undefined")){
-				for (var x = 0; x < CheckList.length; x++) {
+				for (var x = 0; x < DescChildren.length; x++) {
 					if (DescChildren[x].hasAttribute("x")	){
 						DescLayer = DescChildren[x];
 					}
