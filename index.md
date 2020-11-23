@@ -162,7 +162,7 @@ document.getElementById('DescSet').addEventListener('input', DescSetter);
 
 function DescSetter(){
 	DefDesc = document.getElementById("DescSet").value;
-	if (DescP != "undefined"){DescP.innerHTML = DefDesc;}
+	if (typeof DescP != "undefined"){DescP.innerHTML = DefDesc;}
 	
 }
 function SaveState(){
@@ -361,7 +361,7 @@ function getLayers(Image) {
 
 
 function download() {
-	if (DescP != "undefined"){DescP.innerHTML = DefDesc;}
+	if (typeof DescP != "undefined"){DescP.innerHTML = DefDesc;}
 	var data = document.getElementById("imageArea").innerHTML;
 	var file = new Blob([data], {
 		type: "text"
