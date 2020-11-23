@@ -427,7 +427,7 @@ function SetDesc(){
 			DescP.innerHTML = DefDesc
 			SaveState();
 			}
-	else {alert("Layer is not a rectangle";}
+	else {alert("Layer is not a rectangle");}
 }
 
 function SetInt(){
