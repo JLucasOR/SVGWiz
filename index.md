@@ -9,7 +9,7 @@
 <h2>Sample Output</h2>
 <div style="margin: auto; width:90%; height: 0; padding-top: 48%; position: relative;"><iframe style=" position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="Fabaceae_AInteractive.svg" frameborder="0" allowfullscreen></iframe></div>
 <h2>Wiz your SVG</h2>
-<p> To apply descriptions to an individual svg, prepare a csv with layer names in the first column and descriptions in the second. If you are using an area for your description text outside of your svg, give it the ID [filename]Desc and the attribute aria-live="assertive". For Example, a file named Fabaceae_A.svg would require a description area with the attributes id="Fabaceae_ADesc" aria-live="assertive". </p>
+<p> To apply descriptions to an individual svg, prepare a csv with layer names in the first column and descriptions in the second. If you are using an area for your description text outside of your svg, give it the ID [filename]Desc and the attribute aria-live="assertive". For Example, a file named Fabaceae_A.svg would require a description area with the attributes id="Fabaceae_ADesc" and aria-live="assertive". </p>
 
 <div class=Toolbar>
 <label for="Upload">Select an SVG</label>
@@ -385,20 +385,34 @@ var DescP;
 function SetDesc(){
 	//find each checked box
 	var AnyCheck = false;
+	var MultiCheck = false;
+	var Image = document.getElementById("imageArea");
+	var DescLayer;
 	for (var i = 0; i < CheckList.length; i++) {
 		if(CheckList[i].checked){	
+			if (AnyCheck == true){MultiCheck = true;}
 			AnyCheck = true;
 			//find that layer
-			var Image = document.getElementById("imageArea");
-			var DescLayer = document.getElementById(LabelList[i].innerHTML);
+			DescLayer = document.getElementById(LabelList[i].innerHTML);
 			// set layer id
 			//aria-live="assertive" xmlns="http://www.w3.org/1999/xhtml"
+			if (!DescLayer.hasAttribute("x")){
+				DescChildren = DescLayer.children;
+				for (var x = 0; x < CheckList.length; x++) {
+					if DescChildren[x].hasAttribute("x"){
+						DescLayer = DescChildren[x];
+					}
+				}
+			}
+			
+	}
+	if (MultiCheck == true){alert("Please select only one layer");}
+	elseif (AnyCheck == false){alert("No layers selected");}
+	elseif (DescLayer.hasAttribute("x");){
 			var replacement = document.createElementNS('http://www.w3.org/2000/svg',"foreignObject");
 			DescP = document.createElement("p")
 			DescP.setAttribute("ID",filename + "Desc")
-			//<foreignObject id="DescriptionArea" class="cls-203" x="5.57" y="254.29" width="421.71" height="108">
-			//<p id="Description" class="Description" aria-live="assertive" xmlns="http://www.w3.org/1999/xhtml"> Select any item in the key for more information.</p>
-			//</foreignObject>
+
 			for(var x = 0, l = DescLayer.attributes.length; x < l; ++x){
 				var nodeName  = DescLayer.attributes.item(x).nodeName;
 				var nodeValue = DescLayer.attributes.item(x).nodeValue;
@@ -411,10 +425,9 @@ function SetDesc(){
 			DescP.setAttribute("class","Description")
 			DescP.setAttribute("xmlns","http://www.w3.org/1999/xhtml")
 			DescP.innerHTML = DefDesc
-	}
-	}
-	if (AnyCheck == false){alert("No layers selected");}
-	else{SaveState();}
+			SaveState();
+			}
+	else {alert("Layer is not a rectangle";}
 }
 
 function SetInt(){
