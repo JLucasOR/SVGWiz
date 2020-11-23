@@ -298,14 +298,14 @@ var CheckCount = -1;
 const layerList = document.getElementById("LayerList");
 var NameCount;
 function NameGroups(){
-	NameCount = 0;
+	NameCount = 1;
 	NameChildren(document.getElementById("imageArea"),"g");	
-	getLayers(document.getElementById("imageArea"));
+	getLayers(document.getElementById("imageArea").firstChild);
 }
 function NameRects(){
-	NameCount = 0;
+	NameCount = 1;
 	NameChildren(document.getElementById("imageArea"),"rect");	
-	getLayers(document.getElementById("imageArea"));
+	getLayers(document.getElementById("imageArea").firstChild);
 }
 function NameChildren(Layer, Type){
 	var Layers = Layer.children;
