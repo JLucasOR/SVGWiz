@@ -315,7 +315,7 @@ function NameChildren(Layer, Type){
 			Layers[i].setAttribute("Id","G."+NameCount);
 			NameCount += 1;
 		}
-		if (Layers[i].children.length > 0){NameChildren(Layers[i],Type;)}
+		if (Layers[i].children.length > 0){NameChildren(Layers[i],Type);}
 	}
 
 	
