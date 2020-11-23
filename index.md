@@ -299,9 +299,10 @@ const layerList = document.getElementById("LayerList");
 
 function NameGroups(){
 	var Layers = document.getElementById("imageArea").children;
+	alert(layers);
 	var c  = 0;
 	for (var i = 0; i < Layers.length; i++) {
-		if (Layers[i].tagName == "G"){
+		if (Layers[i].tagName == "g"){
 			Layers[i].setAttribute("Id","Group"+c);
 			c += 1;
 			}
@@ -310,9 +311,10 @@ function NameGroups(){
 }
 function NameRects(){
 	var Layers = document.getElementById("imageArea").children;
+	alert(layers);
 	var c  = 0;
 	for (var i = 0; i < Layers.length; i++) {
-		if (Layers[i].tagName == "RECT"){
+		if (Layers[i].tagName == "rect"){
 			Layers[i].setAttribute("Id","Rect"+c);
 			c += 1;
 			}
