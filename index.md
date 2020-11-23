@@ -325,7 +325,6 @@ function NameChildren(Layer, Type){
 function addChildren(Parent, List){
 	let layers = Parent.children;
 	for (var i = 0; i < layers.length; i++) {
-		alert(layers[i].value);
 		if (layers[i].id) {
 			CheckCount += 1
 			let NewLayer = document.createElement("li");
