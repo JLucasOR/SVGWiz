@@ -299,12 +299,12 @@ const layerList = document.getElementById("LayerList");
 var NameCount;
 function NameGroups(){
 	NameCount = 1;
-	NameChildren(document.getElementById("imageArea"),"g");	
+	NameChildren(document.getElementById("imageArea"),"G");	
 	getLayers(document.getElementById("imageArea"));
 }
 function NameRects(){
 	NameCount = 1;
-	NameChildren(document.getElementById("imageArea"),"rect");	
+	NameChildren(document.getElementById("imageArea"),"RECT");	
 	getLayers(document.getElementById("imageArea"));
 }
 function NameChildren(Layer, Type){
