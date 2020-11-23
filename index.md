@@ -9,7 +9,7 @@
 <h2>Sample Output</h2>
 <div style="margin: auto; width:90%; height: 0; padding-top: 48%; position: relative;"><iframe style=" position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="Fabaceae_AInteractive.svg" frameborder="0" allowfullscreen></iframe></div>
 <h2>Wiz your SVG</h2>
-<p> To apply descriptions to an individual svg, prepare a csv with layer names in the first column and descriptions in the second. If you are using an area for your description text outside of your svg, give it the ID [filename]Desc and the attribute aria-live="assertive". For Example, a file named Fabaceae_A.svg would require a description area with the attributes id="Fabaceae_ADesc" aria-live="assertive". </p>
+<p> To apply descriptions to an individual svg, prepare a csv with layer names in the first column and descriptions in the second. If you are using an area for your description text outside of your svg, give it the ID [filename]Desc and the attribute aria-live="assertive". For Example, a file named Fabaceae_A.svg would require a description area with the attributes id="Fabaceae_ADesc" and aria-live="assertive". </p>
 
 <div class=Toolbar>
 <label for="Upload">Select an SVG</label>
@@ -407,8 +407,8 @@ function SetDesc(){
 			
 	}
 	if (MultiCheck == true){alert("Please select only one layer");}
-	elseif (AnyCheck == false){alert("No layers selected");}
-	elseif (DescLayer.hasAttribute("x");){
+	else if (AnyCheck == false){alert("No layers selected");}
+	else if (DescLayer.hasAttribute("x");){
 			var replacement = document.createElementNS('http://www.w3.org/2000/svg',"foreignObject");
 			DescP = document.createElement("p")
 			DescP.setAttribute("ID",filename + "Desc")
