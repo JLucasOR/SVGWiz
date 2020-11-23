@@ -42,7 +42,8 @@
 	<label for="DescSizer">Manual Description:</label><br>
 	<input type="text" id="ManDesc" name="ManDesc"><br>
 	<input type="button" value="Apply Description" onkeypress="AppDesc()" onclick="AppDesc()" /><br>
-	
+	<input type="button" value="Name Group Layers" onkeypress="NameGroups()" onclick="NameGroups()" /><br>
+	<input type="button" value="Name Rectangles" onkeypress="NameRects()" onclick="NameRects()" /><br>	
 </div>
 <div id="imageArea" class="imageArea"></div>
 </div>
@@ -295,6 +296,30 @@ function removeAllChildNodes(parent) {
 }
 var CheckCount = -1;
 const layerList = document.getElementById("LayerList");
+
+function NameGroups(){
+	var Layers = document.getElementById("imageArea").children;
+	var c  = 0;
+	for (var i = 0; i < Layers.length; i++) {
+		if (Layers[i].tagName == "G"){
+			Layers[i].setAttribute("Id","Group"+c);
+			c += 1;
+			}
+	}
+	getLayers(document.getElementById("imageArea"));
+}
+function NameRects(){
+	var Layers = document.getElementById("imageArea").children;
+	var c  = 0;
+	for (var i = 0; i < Layers.length; i++) {
+		if (Layers[i].tagName == "RECT"){
+			Layers[i].setAttribute("Id","Rect"+c);
+			c += 1;
+			}
+	}
+	getLayers(document.getElementById("imageArea"));
+	
+}
 
 function addChildren(Parent, List){
 	let layers = Parent.children;
