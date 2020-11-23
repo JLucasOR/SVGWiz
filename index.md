@@ -408,7 +408,7 @@ function SetDesc(){
 	}
 	if (MultiCheck == true){alert("Please select only one layer");}
 	else if (AnyCheck == false){alert("No layers selected");}
-	else if (DescLayer.hasAttribute("x");){
+	else if (DescLayer.hasAttribute("x")){
 			var replacement = document.createElementNS('http://www.w3.org/2000/svg',"foreignObject");
 			DescP = document.createElement("p")
 			DescP.setAttribute("ID",filename + "Desc")
