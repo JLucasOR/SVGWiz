@@ -324,7 +324,6 @@ function NameChildren(Layer, Type){
 
 function addChildren(Parent, List){
 	let layers = Parent.children;
-	alert(layers.length);
 	for (var i = 0; i < layers.length; i++) {
 		alert(layers[i].value);
 		if (layers[i].id) {
