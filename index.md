@@ -403,7 +403,7 @@ function SetDesc(){
 						DescLayer = DescChildren[x];
 					}
 				}
-			}
+			}}
 			
 	}
 	if (MultiCheck == true){alert("Please select only one layer");}
