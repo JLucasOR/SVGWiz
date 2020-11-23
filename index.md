@@ -398,11 +398,12 @@ function SetDesc(){
 			//aria-live="assertive" xmlns="http://www.w3.org/1999/xhtml"
 			if (!DescLayer.hasAttribute("x")){
 				DescChildren = DescLayer.children;
+				if (!(typeof DescChildren[x] == "undefined")){
 				for (var x = 0; x < CheckList.length; x++) {
 					if (DescChildren[x].hasAttribute("x")	){
 						DescLayer = DescChildren[x];
 					}
-				}
+				}}
 			}}
 			
 	}
