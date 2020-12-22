@@ -533,10 +533,7 @@ function BarGraph(){
 	NewGraph.appendChild(BackGroup);
 	var FeatGroup = document.createElement("g");
 	FeatGroup.id = "Features"
-	NewGraph.appendChild(FeatGroup);
-
-	BackGroup.appendChild(NewText);
-	
+	NewGraph.appendChild(FeatGroup);	
 	
 	var VSpacing = (height - (6 * margin + title + (2*axis) + text))/5
 	var ChartTop = (3*margin) + title + text;
