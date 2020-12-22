@@ -6,8 +6,10 @@
 <link rel="stylesheet" href="style.css">
 
 </head> <body> 
-<h2>Sample Output</h2>
-<div style="margin: auto; width:90%; height: 0; padding-top: 48%; position: relative;"><iframe style=" position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="SVGWizOutput.svg" frameborder="0" allowfullscreen></iframe></div>
+<div style="margin: auto; width:90%; height: 0; padding-top: 48%; position: relative;"><iframe style=" position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="Fabaceae_AInteractive.svg" frameborder="0" allowfullscreen></iframe></div>
+
+
+<head>
 <h2>Wiz your SVG</h2>
 <p> To apply descriptions to an individual svg, prepare a csv with layer names in the first column and descriptions in the second. If you are using an area for your description text outside of your svg, give it the ID [filename]Desc and the attribute aria-live="assertive". For Example, an input file originally named Fabaceae_A.svg would require a description area with the attributes id="Fabaceae_ADesc" aria-live="assertive". </p>
 
@@ -16,10 +18,15 @@
 <input accept=".svg" type="file" name="Upload" id="Upload" />
 <label for="UpCSV">Add a CSV</label>
 <input accept=".csv" type="file" name="UpCSV" id="UpCSV" />
-<input class="hidden" type="button" id="CSVButton" value="Apply CSV"/>
+<select class ="hidden" name="GraphType" id="GraphType">
+  <option value="Pie">Pie Chart</option>
+  <option value="Bar">Bar Graph</option>
+</select>
+<input class="hidden" type="button" id="GraphButton" value="Wiz My Data" onkeypress="MakeGraph()" onclick="MakeGraph()"/>
+<input class="hidden" type="button" id="CSVButton" value="Apply CSV" onkeypress="applyCSV()" onclick="applyCSV()"/> 
 <input type="button" value="Save" onkeypress="download()" onclick="download()" />
-
 </div>
+
 <div class=Toolbar> 
 <input type="button" value="Undo" onkeypress="Undo()" onclick="Undo()" />
 <input type="button" value="Redo" onkeypress="Redo()" onclick="Redo()" />
@@ -39,7 +46,10 @@
 <ul id="LayerList"></ul>
 <input type="button" value="Make Description Area" onkeypress="SetDesc()" onclick="SetDesc()" /><br>
 <input type="button" value="Make Interactive" onkeypress="SetInt()" onclick="SetInt()" /><br>
-	<label for="DescSizer">Manual Description:</label><br>
+	<label for="ManText">Change Text:</label><br>
+	<input type="text" id="ManText" name="ManText"><br>
+	<input type="button" value="Apply Text" onkeypress="AppText()" onclick="AppText()" /><br>
+	<label for="ManDesc">Manual Description:</label><br>
 	<input type="text" id="ManDesc" name="ManDesc"><br>
 	<input type="button" value="Apply Description" onkeypress="AppDesc()" onclick="AppDesc()" /><br>
 	<input type="button" value="Name Group Layers" onkeypress="NameGroups()" onclick="NameGroups()" /><br>
@@ -156,7 +166,6 @@ var ActionCount = -1;
 document.getElementById('Upload').addEventListener('change', getFile);
 document.getElementById('UpCSV').addEventListener('change', getCSV);
 document.getElementById('DescType').addEventListener('input', DescToggle);
-document.getElementById("CSVButton").addEventListener("click", applyCSV);
 document.getElementById('DescSizer').addEventListener('input', DescResize);
 document.getElementById('DescSet').addEventListener('input', DescSetter);
 
@@ -210,6 +219,9 @@ function getCSV(event) {
 	if ('files' in csvInput && csvInput.files.length > 0) {
 		placeCSVContent(document.getElementById('listArea'), csvInput.files[0]);
 		HaveCSV = true;
+		document.getElementById("GraphButton").classList.remove("hidden");
+		document.getElementById("GraphType").classList.remove("hidden");
+		
 		CheckButton();
 	}
 }
@@ -395,7 +407,7 @@ function applyCSV() {
 			//tabindex='0' onkeypress="displayDescription(this)" onclick="displayDescription(this), focus()" focusable="true" class="FeatureGroup"
 			ThisLayer.setAttribute("tabindex","0");
 			ThisLayer.setAttribute("onkeypress","displayDescription(this)");
-			ThisLayer.setAttribute("onclick","displayDescription(this)");
+			ThisLayer.setAttribute("onclick","displayDescription(this), focus()");
 			ThisLayer.setAttribute("focusable","true");
 			ThisLayer.setAttribute("class","FeatureGroup");
 			MyDesc = document.createElement("Desc");
@@ -406,6 +418,313 @@ function applyCSV() {
 			
 		}
 	}}
+function MakeGraph(){
+	if (document.getElementById("GraphType").value == "Pie"){
+	PieGraph();}
+	else{
+	BarGraph();
+	}
+}
+function PieGraph(){
+	var margin = 4;
+	var width = 275;
+	var height = 225;
+	var axis = 12;
+	var title = 15;
+	var text = 6;
+	var Area = document.getElementById("imageArea");
+    while (Area.firstChild) {
+        Area.removeChild(Area.firstChild);
+    }
+	var NewGraph = document.createElement("svg");
+	var Data = document.getElementById("listArea").innerHTML;
+	var Datar = $.csv.toArrays(Data);
+	
+	NewGraph.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+	NewGraph.setAttribute("viewBox", "0 0 " + width + " " + height);
+	var NewDefs = document.createElement("defs");
+	var NewStyle = document.createElement("Style");
+	NewStyle.innerHTML = ".under {fill: #263c53; stroke:black;} .title{font-size:" + title + "px;}.Axis{font-size:" + axis + "px;} .text{font-size: " + text+ "px;} .over{fill: white; font-size: " + axis + "px;} .feature{fill:#008099;} .FeatureGroup :not(text){opacity:0;} *:focus{outline: 0px solid transparent;} .FeatureGroup:hover :not(text){ opacity:0.5;} .FeatureGroup:focus {opacity:1;} *{font-family: OpenSans, Open Sans;} .label{font-size: " + text + "px; text-align: center; display: vertical-align: middle;} .Wlabel{color: white; font-size: " + text + "px; text-align: center; padding-top: 2em;} .Opaque {opacity:1;} p{opacity:1;}; foreignObject{opacity:1;}";
+	NewGraph.appendChild(NewDefs);
+	NewDefs.appendChild(NewStyle);
+	Area.appendChild(NewGraph);
+	var BackGroup = document.createElement("g");
+	BackGroup.id = "Background"
+	NewGraph.appendChild(BackGroup);
+	BackGroup.setAttribute("Class", "under");
+	var FeatGroup = document.createElement("g");
+	FeatGroup.id = "Features"
+	NewGraph.appendChild(FeatGroup);
+	var sum = 0;
+	for (var i = 1; i < Datar.length; i++){
+		if (Number(Datar[i][1])){sum += Number(Datar[i][1]);}
+	}
+	FeatGroup.appendChild(MakeText(margin + (2*axis), margin + title, "title", Datar[0][0] + " vs. " + Datar[0][1], "Title"));
+	FeatGroup.lastChild.setAttribute("tabindex", 0);
+	FeatGroup.lastChild.setAttribute("onclick", "focus()");
+	var xo = width/2;
+	var yo = (height/2)+10;
+	var r =  width/4;
+	BackGroup.appendChild(MakeCircle(xo, yo, r));
+	var p = 0
+	for (var i = 1; i < (Datar.length); i++){
+		NewGroup = document.createElement("g");
+		NewGroup.id = Datar[i].toString().split(",")[0].split(" ")[0] + "Group";
+		//Add Heading Label
+		//NewGroup.appendChild(MakeWrapped(ChartLeft + text + (2*margin) + (i * HSpacing), ChartBottom + margin, HSpacing, (text * 3), "label", Datar[i+1][0]));
+		//Add Interactive Fill
+		var pb = Number(p + (Number(Datar[i][1])/sum ))
+		NewGroup.appendChild(MakeWedge(Number(xo), Number(yo), Number(r), Number(p), pb));
+		NewGroup.lastChild.setAttribute("Class", "feature");
+		NewGroup.appendChild(EdgeLabel(Number(xo), Number(yo), Number(r), Number(p), pb, "label",Datar[i].toString().split(",")[0] ));
+		NewGroup.lastChild.id = Datar[i].toString().split(",")[0].split(" ")[0] + "Label";
+		NewGroup.appendChild(WedgeLabel(Number(xo), Number(yo), Number(r), Number(p), pb, "Wlabel",Math.round((Datar[i][1])/sum * 100) + "%"));
+		NewGroup.lastChild.id = Datar[i].toString().split(",")[0].split(" ")[0] + "OnWedge";;
+		//NewGroup.appendChild(MakeText(ChartLeft + text + (2*margin) + (i * HSpacing)+ (1/4 * HSpacing), height - (3 * margin + axis + text + (VFactor * Datar[i+1][1])) + margin + text, "over", Datar[i+1][1]));
+		//Add Behind Wedge
+		BackGroup.appendChild(MakeWedge(Number(xo), Number(yo), Number(r), Number(p), pb));
+		
+		p = pb;
+		
+		NewGroup.setAttribute("Class", "FeatureGroup");
+		NewGroup.setAttribute("tabindex", 0);
+		NewGroup.setAttribute("focusable", "true");
+		NewGroup.setAttribute("onclick", "focus()");
+		NewGroup.setAttribute("xmlns","http://www.w3.org/2000/svg");
+		FeatGroup.appendChild(NewGroup);	
+	}
+	
+	Area.innerHTML = Area.innerHTML;
+	getLayers(Area);
+	addScript(Area);
+	HaveSVG = true;
+	CheckButton();
+	ActionCount = -1;
+	ActionHistory = [];
+	Area.innerHTML = Area.innerHTML;
+	SaveState();
+}
+function BarGraph(){
+	var margin = 4;
+	var width = 320;
+	var height = 180;
+	var axis = 12;
+	var title = 15;
+	var text = 6;
+	var Area = document.getElementById("imageArea");
+    while (Area.firstChild) {
+        Area.removeChild(Area.firstChild);
+    }
+	var NewGraph = document.createElement("svg");
+	var Data = document.getElementById("listArea").innerHTML;
+	var Datar = $.csv.toArrays(Data);
+	
+	NewGraph.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+	NewGraph.setAttribute("viewBox", "0 0 " + width + " " + height);
+	var NewDefs = document.createElement("defs");
+	var NewStyle = document.createElement("Style");
+	NewStyle.innerHTML = ".under {fill: #263c53;} .title{font-size:" + title + "px;}.Axis{font-size:" + axis + "px;} .text{font-size: " + text+ "px;} .over{fill: white; font-size: " + axis + "px;} .feature{fill:#008099;} .FeatureGroup :not(text){opacity:0;} *:focus{outline: 0px solid transparent;} .FeatureGroup:hover :not(text){ opacity:0.5;} .FeatureGroup:focus {opacity:1;} *{font-family: OpenSans, Open Sans;} .label{font-size: " + text + "px; text-align: center;} .Wlabel{color: white; font-size: " + text + "px; text-align: center; padding-top: 2em;} .Opaque {opacity:1;} p{opacity:1;}; foreignObject{opacity:1;}";
+	NewGraph.appendChild(NewDefs);
+	NewDefs.appendChild(NewStyle);
+	Area.appendChild(NewGraph);
+	var BackGroup = document.createElement("g");
+	BackGroup.id = "Background"
+	NewGraph.appendChild(BackGroup);
+	var FeatGroup = document.createElement("g");
+	FeatGroup.id = "Features"
+	NewGraph.appendChild(FeatGroup);
+	var NewText = MakeText(-1 * (2/3*height), margin + axis, "Axis", Datar[0][1], "VAxis");
+	NewText.setAttribute("transform","rotate(-90)");
+	BackGroup.appendChild(NewText);
+	
+	
+	var VSpacing = (height - (6 * margin + title + (2*axis) + text))/5
+	var ChartTop = (3*margin) + title + text;
+	var ChartLeft = 3 * margin + axis;
+	var max = 0;
+	for (var i = 1; i < Datar.length; i++){
+		if (Number(Datar[i][1]) > Number(max)){max = Datar[i][1];}
+	}
+	var min = 0;
+	var VFactor =  (VSpacing * 5) / (max - min);
+	var step = (max - min)/5;
+	var ChartBottom = ChartTop + (5 * VSpacing) - (text/3);
+	for (var i = 0; i < 6; i ++) {
+		BackGroup.appendChild(MakeText(ChartLeft, ChartTop + (i * VSpacing), "text", Math.round(((max - (i * step)))*100)/100));
+		BackGroup.lastChild.setAttribute("aria-hidden", "true");
+
+		BackGroup.appendChild(MakeLine(ChartLeft + margin + (2*text), ChartTop + (i * VSpacing) - (text/3), width-margin, ChartTop + (i * VSpacing) - (text/3)));}
+	var bars = Datar.length - 1;
+	FeatGroup.appendChild(MakeText(margin + (2*axis), margin + title, "title", Datar[0][0] + " vs. " + Datar[0][1], "Title"));	
+	FeatGroup.lastChild.setAttribute("tabindex", 0);
+	FeatGroup.lastChild.setAttribute("onclick", "focus()");
+	FeatGroup.appendChild(MakeText((1/3)*width, height - margin, "Axis", Datar[0][0], "HAxis"));
+	BackGroup.lastChild.setAttribute("tabindex", 0);
+	FeatGroup.lastChild.setAttribute("onclick", "focus()");
+	var HSpacing = (width - (ChartLeft + text + (3*margin)))/bars;
+	for (var i = 0; i < bars; i ++) {
+		NewGroup  = document.createElement("g");
+		NewGroup.id = Datar[i+1].toString().split(",")[0].split(" ")[0] + "Group";
+		NewGroup.appendChild(MakeWrapped(ChartLeft + text + (2*margin) + (i * HSpacing), ChartBottom + margin, HSpacing, (text * 3), "label", Datar[i+1][0]));
+		NewGroup.lastChild.id = Datar[i+1].toString().split(",")[0].split(" ")[0] + "Label";
+		NewGroup.appendChild(MakeRect(ChartLeft + text + (3*margin) + (i * HSpacing), ChartBottom - (VFactor * Datar[i+1][1]),HSpacing - (2 * margin), (VFactor * Datar[i+1][1])));
+		NewGroup.lastChild.setAttribute("Class", "feature");
+		NewGroup.appendChild(MakeText(ChartLeft + text + (2*margin) + (i * HSpacing)+ (1/4 * HSpacing), height - (3 * margin + axis + text + (VFactor * Datar[i+1][1])) + margin + text, "over", Datar[i+1][1]));
+		NewGroup.lastChild.id = Datar[i+1].toString().split(",")[0].split(" ")[0] + "OnBar";
+		BackGroup.appendChild(MakeRect(ChartLeft + text + (3*margin) + (i * HSpacing), ChartBottom - (VFactor * Datar[i+1][1]),HSpacing - (2 * margin), (VFactor * Datar[i+1][1])));
+		BackGroup.lastChild.setAttribute("Class", "under");
+		NewGroup.setAttribute("Class", "FeatureGroup");
+		NewGroup.setAttribute("tabindex", 0);
+		NewGroup.setAttribute("focusable", "true");
+		NewGroup.setAttribute("onclick", "focus()");
+		NewGroup.setAttribute("xmlns","http://www.w3.org/2000/svg");
+		FeatGroup.appendChild(NewGroup);}
+	//make feature group accessible
+	Area.innerHTML = Area.innerHTML;
+	getLayers(Area);
+	addScript(Area);
+	HaveSVG = true;
+	CheckButton();
+	ActionCount = -1;
+	ActionHistory = [];
+	Area.innerHTML = Area.innerHTML;
+	SaveState();
+
+	}	
+function WedgeLabel(xo,yo, r, Pa, Pb, myClass, text){
+	// Pa = Percent A, starting range of arc, value between 0 and 1
+	// Pb = Percent B, ending range of arc
+	//arc start (point on circle)
+	//x = xo + r * cos(a)
+	//y = yo + r * sin(a)
+	//Where r is the radius, cx, cy the origin, and a the angle.
+	//degree to radian = d * 0.0174533
+	var xs = xo + r * Math.cos(Pa * 6.28319);
+	var ys = yo + r * Math.sin(Pa * 6.28319);	
+	var xb = xo + r * Math.cos(Pb * 6.28319);
+	var yb = yo + r * Math.sin(Pb * 6.28319);	
+	var d =  Math. sqrt(Math.pow((xs-xo),2)+Math.pow((ys-yo),2));
+	var s = (d + r + r)/2;
+	var t = Math.sqrt(s*(s-d)*(s-r)*(s-r));
+	if (Math.min(r, d) == r){
+		// r is base
+		var base = r;
+		}
+	else{
+		//d is base
+		var base = d;
+		}
+	var h = (2*t)/base;
+	var x = (base * h)/(base + h );
+	var rc = .7*r;
+	var Pc = ((Pb - Pa)/2) + Pa;
+	var xc = (xo + rc * Math.cos(Pc * 6.28319));
+	var yc = (yo + rc * Math.sin(Pc * 6.28319));	
+	//return MakeCircle(xc,yc, 1);
+	return MakeWrapped((xc - x/2) , (yc - x/2), x, x, myClass, text)
+}
+function EdgeLabel(xo,yo, r, Pa, Pb, myClass, inner){
+	// Pa = Percent A, starting range of arc, value between 0 and 1
+	// Pb = Percent B, ending range of arc
+	//arc start (point on circle)
+	//x = xo + r * cos(a)
+	//y = yo + r * sin(a)
+	//Where r is the radius, cx, cy the origin, and a the angle.
+	//degree to radian = d * 0.0174533
+	var Pc = ((Pb - Pa)/2) + Pa; 
+	var xc = (xo + r * Math.cos(Pc * 6.28319));
+	var yc = (yo + r * Math.sin(Pc * 6.28319));	
+	//find x
+	if (xc < xo){
+		var x = xc - (r/2);
+		}
+	else{
+		var x = xc ;
+		}
+	//find y
+	if (yc < yo){
+		var y = yc - 20;
+		}
+	else{
+		var y = yc;
+		}
+	return MakeWrapped(x, y, r/2, 30, myClass, inner)
+	
+}
+
+function MakeWedge(xo,yo, r, Pa, Pb){
+	// Pa = Percent A, starting range of arc, value between 0 and 1
+	// Pb = Percent B, ending range of arc
+	//arc start (point on circle)
+	//x = xo + r * cos(a)
+	//y = yo + r * sin(a)
+	//Where r is the radius, cx, cy the origin, and a the angle.
+	//degree to radian = d * 0.0174533
+	var xs = xo + r * Math.cos(Pa * 6.28319);
+	var ys = yo + r * Math.sin(Pa * 6.28319);	
+	var xb = xo + r * Math.cos(Pb * 6.28319);
+	var yb = yo + r * Math.sin(Pb * 6.28319);	
+	var Wedge = document.createElement("path");
+	var start = "M "+ xo + " " + yo + " ";
+	var Line = "L "+ xs + " " + ys + " ";
+	var arc = "A " + r + " " + r + " 0 0,1 " + xb  + " " + yb + " Z";
+	Wedge.setAttribute("d",start + Line + arc);
+	return Wedge;
+
+
+}
+function MakeCircle(x,y,radius){
+	var NewCirc = document.createElement("circle");
+	NewCirc.setAttribute("cx", x);
+	NewCirc.setAttribute("cy", y);
+	NewCirc.setAttribute("r", radius);
+	return NewCirc;
+}
+function MakeWrapped(x, y, width, height, MyClass, inner){
+	var NewText = document.createElementNS('http://www.w3.org/2000/svg',"foreignObject");
+	var InnerP = document.createElement("p");
+	InnerP.innerHTML = inner;
+	InnerP.setAttribute("Class", MyClass);
+	NewText.setAttribute("x", x);
+	NewText.setAttribute("y", y);
+	NewText.setAttribute("width", width);
+	NewText.setAttribute("height", height);
+	NewText.appendChild(InnerP);
+	InnerP.setAttribute("xmlns","http://www.w3.org/1999/xhtml");
+	NewText.setAttribute("style", "opacity:1");
+	InnerP.setAttribute("style", "opacity:1; margin:0;");
+	return NewText;
+}	
+
+function MakeLine(x,y,xb,yb){
+	var NewLine = document.createElement("line");
+	NewLine.setAttribute("x1", x);
+	NewLine.setAttribute("y1", y);
+	NewLine.setAttribute("x2", xb);
+	NewLine.setAttribute("y2", yb);
+	NewLine.setAttribute("style", "stroke:gray;stroke-width:1");
+	return NewLine;
+}
+function MakeRect(x, y, width, height){
+	var NewRect = document.createElement("rect");
+	NewRect.setAttribute("x", x);
+	NewRect.setAttribute("y", y);
+	NewRect.setAttribute("width", width);
+	NewRect.setAttribute("height", height);
+	return NewRect;
+}
+
+function MakeText(x,y, myclass, inner, Myid = inner){
+	var NewText = document.createElement("text");
+	NewText.setAttribute("x", x);
+	NewText.setAttribute("y", y);
+	NewText.setAttribute("class", myclass);
+	NewText.innerHTML = inner;
+	NewText.id = Myid;
+	return NewText;
+}
+	
+	
 var DescP;
 
 function SetDesc(){
@@ -466,7 +785,7 @@ function SetInt(){
 			var ThisLayer = document.getElementById(LabelList[i].innerHTML);
 			ThisLayer.setAttribute("tabindex","0");
 			ThisLayer.setAttribute("onkeypress","displayDescription(this)");
-			ThisLayer.setAttribute("onclick","displayDescription(this)");
+			ThisLayer.setAttribute("onclick","displayDescription(this), focus()");
 			ThisLayer.setAttribute("focusable","true");
 			ThisLayer.setAttribute("class","FeatureGroup");
 			
@@ -500,7 +819,23 @@ function AppDesc(){
 		if (AnyCheck == false){alert("No layers selected");}
 		else{SaveState();}
 }		
-
+function AppText(){
+	//find each checked box
+	var AnyCheck = false;
+	for (var i = 0; i < CheckList.length; i++) {
+		if(CheckList[i].checked){	
+			var ThisLayer = document.getElementById(LabelList[i].innerHTML);
+			if (ThisLayer.tagName.toLowerCase() == "text"){
+				AnyCheck = true;
+			ThisLayer.innerHTML = document.getElementById("ManText").value;}			
+			else if (ThisLayer.tagName.toLowerCase() == "foreignobject"){
+				AnyCheck = true;
+				ThisLayer.firstChild.innerHTML = document.getElementById("ManText").value;}			
+			}
+			}
+		if (AnyCheck == false){alert("No text layers selected");}
+		else{SaveState();}
+}		
 
 
 function ListTemplate(){
@@ -518,7 +853,6 @@ function ListTemplate(){
 
 
 </script>
-
 
 
 
