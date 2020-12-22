@@ -673,7 +673,11 @@ function MakeWedge(xo,yo, r, Pa, Pb){
 	var Wedge = document.createElement("path");
 	var start = "M "+ xo + " " + yo + " ";
 	var Line = "L "+ xs + " " + ys + " ";
-	var arc = "A " + r + " " + r + " 0 0,1 " + xb  + " " + yb + " Z";
+	if ((Pb-Pa) > .5){
+		var arc = "A " + r + " " + r + " 0 1,1 " + xb  + " " + yb + " Z";
+	}
+	else {var arc = "A " + r + " " + r + " 0 0,1 " + xb  + " " + yb + " Z";}
+	
 	Wedge.setAttribute("d",start + Line + arc);
 	return Wedge;
 
