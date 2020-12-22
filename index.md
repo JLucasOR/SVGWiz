@@ -533,8 +533,7 @@ function BarGraph(){
 	var FeatGroup = document.createElement("g");
 	FeatGroup.id = "Features"
 	NewGraph.appendChild(FeatGroup);
-	var NewText = MakeText(-1 * (2/3*height), margin + axis, "Axis", Datar[0][1], "VAxis");
-	NewText.setAttribute("transform","rotate(-90)");
+
 	BackGroup.appendChild(NewText);
 	
 	
@@ -559,8 +558,17 @@ function BarGraph(){
 	FeatGroup.lastChild.setAttribute("tabindex", 0);
 	FeatGroup.lastChild.setAttribute("onclick", "focus()");
 	FeatGroup.appendChild(MakeText((1/3)*width, height - margin, "Axis", Datar[0][0], "HAxis"));
-	BackGroup.lastChild.setAttribute("tabindex", 0);
+	FeatGroup.lastChild.setAttribute("tabindex", 0);
 	FeatGroup.lastChild.setAttribute("onclick", "focus()");
+	var MyDesc= document.createElement("Desc");
+	MyDesc.innerHTML = "horizontal axis"
+	FeatGroup.lastChild.appendChild(MyDesc);
+	FeatGroup.appendChild(MakeText(-1 * (2/3*height), margin + axis, "Axis", Datar[0][1], "VAxis"));
+	FeatGroup.lastChild.setAttribute("transform","rotate(-90)");
+	MyDesc= document.createElement("Desc");
+	MyDesc.innerHTML = "vertical axis"
+	FeatGroup.lastChild.appendChild(MyDesc);
+
 	var HSpacing = (width - (ChartLeft + text + (3*margin)))/bars;
 	for (var i = 0; i < bars; i ++) {
 		NewGroup  = document.createElement("g");
