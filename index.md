@@ -527,6 +527,7 @@ function BarGraph(){
 	NewGraph.appendChild(NewDefs);
 	NewDefs.appendChild(NewStyle);
 	Area.appendChild(NewGraph);
+	var NewText
 	var BackGroup = document.createElement("g");
 	BackGroup.id = "Background"
 	NewGraph.appendChild(BackGroup);
