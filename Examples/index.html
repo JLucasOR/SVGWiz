@@ -14,12 +14,13 @@
 </head>
 <style>
 .content{display: grid; grid-auto-columns: 1fr;}
+
 .box svg{width: 100%;}
 .box p{padding: 1em 0em;}
 .box{ padding: 1em; border-radius: 25px;
   border: 2px solid teal;}
 @media(min-width: 900px){
-.content h2{grid-column: span 2;}
+.content h2,.content p{grid-column: span 2;}
 
 .box{grid-column: span 1; margin: auto; min-height: 350px;}
 }
@@ -30,9 +31,9 @@
 <h1>Interactive Graphic Examples</h1>
 <div class="content">
 <h2>Diagram with Definiton Area</h2>
+<p>The diagram below is keybaord navigable; use tab to move forward and shift-tab to move back. Interacting with the diagram by clicking on a term or by pressing enter will update the text in the description area.</p>
 <div class="box">
 <h3>Patterns of the Pea Family</h3>
-
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg"  xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 432 254.29" x="0px" y="0px" xml:space="preserve" width="432" height="254.29"> <defs>
 <style>
       .cls-1 {
@@ -903,6 +904,7 @@
        }
 </script>
 <h2>Screen Reader Experience Comparison</h2>
+<p>The audio recordings below these images reflect the user experience of describing this chart via alt-text or providing an interactive version that the user can explore at their own pace.</p>
 <div class="box">
 <h3>PNG Image</h3>
 <img src ="/SVGWiz/Examples/images/ProduceCount.png">
