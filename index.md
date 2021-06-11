@@ -816,7 +816,7 @@ function SetInt(){
 
 function AppDesc(evt){
 	//find each checked box
-		if( evt.keyCode == 13 ) {
+		if( event.key === 'Enter' ) {
 	var AnyCheck = false;
 	for (var i = 0; i < CheckList.length; i++) {
 		if(CheckList[i].checked){	
@@ -840,7 +840,7 @@ function AppDesc(evt){
 }		}
 function AppText(evt){
 	//find each checked box
-	if( evt.keyCode == 13 ) {
+	if( event.key === 'Enter' ) {
 	var AnyCheck = false;
 	for (var i = 0; i < CheckList.length; i++) {
 		if(CheckList[i].checked){	
