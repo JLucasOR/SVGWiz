@@ -41,7 +41,7 @@
 	<label for="DescSet">Starting Description:</label>
 	<input type="text" id="DescSet" value="Select any item for more information." name="DescSet">
 	<label for="fgoSet">Interactive Opacity:</label>
-	<input type="text" id="fgoSet" value="1" name="fgoSet">
+	<input type="text" id="fgoSet" value="1" style="width:4em;" name="fgoSet">
 	
 </div>
 <div class="editArea">
@@ -259,12 +259,12 @@ function addScript(imageArea) {
 	var defzone = document.getElementsByTagName("defs")[0];
 	MyStyle = document.createElement("style");
 	MyStyle.setAttribute("type", "text/css")
-	MyStyle.innerHTML = ".FeatureGroup :not(text){opacity:0;} *:focus{outline: 0px solid transparent;} .FeatureGroup:hover :not(text){ opacity:0.5;} .FeatureGroup:focus :not(text){opacity:1;} .Description {font-size: 16px; font-family: OpenSans, Open Sans;}"
+	MyStyle.innerHTML = "#printKey{display: none;} @media print{#printKey{display: inline;}}.FeatureGroup :not(text){opacity:0;} *:focus{outline: 0px solid transparent;} .FeatureGroup:hover :not(text){ opacity:" + (document.getElementById("fgoSet").value / 2 ) + ";} .FeatureGroup:focus :not(text){opacity:" + document.getElementById("fgoSet").value + ";} .Description {font-size: " + document.getElementById("DescSizer").value + "px; font-family: OpenSans, Open Sans;}";
 	defzone.appendChild(MyStyle);
 }
 
 function svgRestyle(event){
-	let NewStyle = ".FeatureGroup :not(text){opacity:0;} *:focus{outline: 0px solid transparent;} .FeatureGroup:hover :not(text){ opacity:" + (document.getElementById("fgoSet").value / 2 ) + ";} .FeatureGroup:focus :not(text){opacity:" + document.getElementById("fgoSet").value + ";} .Description {font-size: " + document.getElementById("DescSizer").value + "px; font-family: OpenSans, Open Sans;}";
+	let NewStyle = "#printKey{display: none;} @media print{#printKey{display: inline;}}.FeatureGroup :not(text){opacity:0;} *:focus{outline: 0px solid transparent;} .FeatureGroup:hover :not(text){ opacity:" + (document.getElementById("fgoSet").value / 2 ) + ";} .FeatureGroup:focus :not(text){opacity:" + document.getElementById("fgoSet").value + ";} .Description {font-size: " + document.getElementById("DescSizer").value + "px; font-family: OpenSans, Open Sans;}";
 	MyStyle.innerHTML = NewStyle;
 }
 
