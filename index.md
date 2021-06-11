@@ -18,12 +18,14 @@
 <input accept=".svg" type="file" name="Upload" id="Upload" />
 <label for="UpCSV">Add a CSV</label>
 <input accept=".csv" type="file" name="UpCSV" id="UpCSV" />
+
+
+<input class="hidden" type="button" id="CSVButton" value="Apply CSV" onkeypress="applyCSV()" onclick="applyCSV()"/> 
 <select class ="hidden" name="GraphType" id="GraphType">
   <option value="Pie">Pie Chart</option>
   <option value="Bar">Bar Graph</option>
 </select>
 <input class="hidden" type="button" id="GraphButton" value="Wiz My Data" onkeypress="MakeGraph()" onclick="MakeGraph()"/>
-<input class="hidden" type="button" id="CSVButton" value="Apply CSV" onkeypress="applyCSV()" onclick="applyCSV()"/> 
 <input type="button" value="Save" onkeypress="download()" onclick="download()" />
 </div>
 
@@ -38,20 +40,21 @@
 	<input type="number" id="DescSizer" value="16" style="width:4em;" name="DescSizer">
 	<label for="DescSet">Starting Description:</label>
 	<input type="text" id="DescSet" value="Select any item for more information." name="DescSet">
+	<label for="fgoSet">Interactive Opacity:</label>
+	<input type="text" id="fgoSet" value="1" name="fgoSet">
+	
 </div>
 <div class="editArea">
-
 <div id="editSidebar" class="editSidebar">
 <h3 style="text-align:center">Named Layers</h3>
 <ul id="LayerList"></ul>
-<input type="button" value="Make Description Area" onkeypress="SetDesc()" onclick="SetDesc()" /><br>
+<input type="button" value="Make Description Area" onkeypress="SetDesc()" onclick="SetDesc()" />
+<br>
 <input type="button" value="Make Interactive" onkeypress="SetInt()" onclick="SetInt()" /><br>
 	<label for="ManText">Change Text:</label><br>
-	<input type="text" id="ManText" name="ManText"><br>
-	<input type="button" value="Apply Text" onkeypress="AppText()" onclick="AppText()" /><br>
+	<input type="text" id="ManText" name="ManText" onkeydown="AppText()" ><br>
 	<label for="ManDesc">Manual Description:</label><br>
-	<input type="text" id="ManDesc" name="ManDesc"><br>
-	<input type="button" value="Apply Description" onkeypress="AppDesc()" onclick="AppDesc()" /><br>
+	<input type="text" id="ManDesc" name="ManDesc" onkeydown="AppDesc()" ><br>
 	<input type="button" value="Name Group Layers" onkeypress="NameGroups()" onclick="NameGroups()" /><br>
 	<input type="button" value="Name Rectangles" onkeypress="NameRects()" onclick="NameRects()" /><br>	
 </div>
@@ -150,7 +153,7 @@ The layers are presented in draw order, which also happens to be tab order for k
 	Select one or more of your layers and hit this button to make them keyboard navigable. The layer order as printed on this list will be their tab order.
 <h4>Manual Description</h4>
 	Use this field and the "apply description" button to manually add a description to any selected layers. This can be used to correct an existing description.
- </body> 
+
 
 
 <script type="text/javascript">
@@ -166,8 +169,9 @@ var ActionCount = -1;
 document.getElementById('Upload').addEventListener('change', getFile);
 document.getElementById('UpCSV').addEventListener('change', getCSV);
 document.getElementById('DescType').addEventListener('input', DescToggle);
-document.getElementById('DescSizer').addEventListener('input', DescResize);
+document.getElementById('DescSizer').addEventListener('input', svgRestyle);
 document.getElementById('DescSet').addEventListener('input', DescSetter);
+document.getElementById('fgoSet').addEventListener('input', svgRestyle);
 
 function DescSetter(){
 	DefDesc = document.getElementById("DescSet").value;
@@ -257,13 +261,14 @@ function addScript(imageArea) {
 	MyStyle.setAttribute("type", "text/css")
 	MyStyle.innerHTML = ".FeatureGroup :not(text){opacity:0;} *:focus{outline: 0px solid transparent;} .FeatureGroup:hover :not(text){ opacity:0.5;} .FeatureGroup:focus :not(text){opacity:1;} .Description {font-size: 16px; font-family: OpenSans, Open Sans;}"
 	defzone.appendChild(MyStyle);
-	
 }
 
-function DescResize(event){
-	let NewStyle = ".FeatureGroup :not(text){opacity:0;} *:focus{outline: 0px solid transparent;} .FeatureGroup:hover :not(text){ opacity:0.5;} .FeatureGroup:focus :not(text){opacity:1;} .Description {font-size: " + document.getElementById("DescSizer").value + "px; font-family: OpenSans, Open Sans;}";
+function svgRestyle(event){
+	let NewStyle = ".FeatureGroup :not(text){opacity:0;} *:focus{outline: 0px solid transparent;} .FeatureGroup:hover :not(text){ opacity:" + (document.getElementById("fgoSet").value / 2 ) + ";} .FeatureGroup:focus :not(text){opacity:" + document.getElementById("fgoSet").value + ";} .Description {font-size: " + document.getElementById("DescSizer").value + "px; font-family: OpenSans, Open Sans;}";
 	MyStyle.innerHTML = NewStyle;
 }
+
+
  function displayDescription(Group) {
         document.getElementById(filename + "Desc").innerHTML = Group.getElementsByTagName('desc')[0].innerHTML;
        }
@@ -410,6 +415,9 @@ function applyCSV() {
 			ThisLayer.setAttribute("onclick","displayDescription(this), focus()");
 			ThisLayer.setAttribute("focusable","true");
 			ThisLayer.setAttribute("class","FeatureGroup");
+			if (ThisLayer.getElementsByTagName("text").length < 1) {
+				ThisLayer.setAttribute("title", ThisLayer.id.replace("_", " "));
+			}
 			MyDesc = document.createElement("Desc");
 			MyDesc.setAttribute("aria-hidden", AriaValue);
 			MyDesc.innerHTML = FeatureList[i][1];
@@ -806,8 +814,9 @@ function SetInt(){
 		else{SaveState();}
 }
 
-function AppDesc(){
+function AppDesc(evt){
 	//find each checked box
+		if( evt.keyCode == 13 ) {
 	var AnyCheck = false;
 	for (var i = 0; i < CheckList.length; i++) {
 		if(CheckList[i].checked){	
@@ -828,9 +837,10 @@ function AppDesc(){
 			}}
 		if (AnyCheck == false){alert("No layers selected");}
 		else{SaveState();}
-}		
-function AppText(){
+}		}
+function AppText(evt){
 	//find each checked box
+	if( evt.keyCode == 13 ) {
 	var AnyCheck = false;
 	for (var i = 0; i < CheckList.length; i++) {
 		if(CheckList[i].checked){	
@@ -845,7 +855,7 @@ function AppText(){
 			}
 		if (AnyCheck == false){alert("No text layers selected");}
 		else{SaveState();}
-}		
+}		}
 
 
 function ListTemplate(){
