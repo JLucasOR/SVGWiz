@@ -415,6 +415,7 @@ function applyCSV() {
 			ThisLayer.setAttribute("onclick","displayDescription(this), focus()");
 			ThisLayer.setAttribute("focusable","true");
 			ThisLayer.setAttribute("class","FeatureGroup");
+			ThisLayer.setAttribute("role","button");
 			if (ThisLayer.getElementsByTagName("text").length < 1) {
 				ThisLayer.setAttribute("title", ThisLayer.id.replace("_", " "));
 			}
