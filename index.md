@@ -326,6 +326,7 @@ function NameRects(){
 	getLayers(document.getElementById("imageArea"));
 }
 function NameChildren(Layer, Type){
+
 	var Layers = Layer.children;
 	for (var i = 0; i < Layers.length; i++) {
 		if (Layers[i].tagName == Type){
@@ -336,7 +337,7 @@ function NameChildren(Layer, Type){
 		if (Layers[i].children.length > 0){NameChildren(Layers[i],Type);}
 	}
 
-	
+	getLayers(document.getElementById("imageArea"));
 
 }
 
@@ -372,12 +373,11 @@ function cleanAttributes(image){
 	if (!image.firstElementChild.getAttribute("viewBox")){
 		var x = image.firstElementChild.getAttribute("width");
 		var y = image.firstElementChild.getAttribute("height");
-		var viewb = "0 0 " + x + " " + y
+		var viewb = "0 0 " + x + " " + y;
 		image.firstElementChild.setAttribute("viewBox", viewb);
 		image.firstElementChild.removeAttribute("width");
 		image.firstElementChild.removeAttribute("height");
 	}
-
 }
 
 
