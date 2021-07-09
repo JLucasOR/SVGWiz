@@ -276,6 +276,7 @@ function svgRestyle(event){
 function placeSVGContent(target, file) {
 	readFileContent(file).then(content => {
 		target.innerHTML = content;
+		cleanAttributes(target);
 		getLayers(target);
 		addScript(target);
 		HaveSVG = true;
@@ -366,6 +367,19 @@ function addChildren(Parent, List){
 	}
 	if (List.children.length  == 0){List.parentNode.removeChild(List);}
 }
+
+function cleanAttributes(image){
+	if (!image.firstElementChild.getAttribute("viewBox")){
+		var x = image.firstElementChild.getAttribute("width");
+		var y = image.firstElementChild.getAttribute("height");
+		var viewb = "0 0 " + x + " " + y
+		image.firstElementChild.setAttribute("viewBox", viewb);
+		image.firstElementChild.removeAttribute("width");
+		image.firstElementChild.removeAttribute("height");
+	}
+
+}
+
 
 function getLayers(Image) {
 	removeAllChildNodes(layerList);
