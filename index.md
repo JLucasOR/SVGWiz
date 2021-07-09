@@ -849,7 +849,9 @@ function setGrp(){
 			}}
 		if (anyCheck == false){alert("No layers selected");}
 		else{
-		getLayers(document.getElementById("imageArea"))
+		var area = document.getElementById("imageArea");
+		area.innerHTML = area.innerHTML;
+		getLayers(area);
 		SaveState();}
 }
 function SetInt(){
