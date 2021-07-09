@@ -344,7 +344,7 @@ function NameChildren(Layer, Type){
 			if (Layers[i].id == ""){
 			Layers[i].setAttribute("id", Type + NameCount);
 			if (Layers[i].tagName == "text"){
-				var myName = Layers[i].innerHTML.substring(0,15).replace(" ","_");
+				var myName = Layers[i].innerHTML.substring(0,15).replace(" ","_").replace(/<\/?[^>]*>/g,"_");
 				if(!document.getElementById(myName)){
 					Layers[i].setAttribute("id",myName);
 				}
