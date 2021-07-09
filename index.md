@@ -343,6 +343,13 @@ function NameChildren(Layer, Type){
 		if (Layers[i].tagName == Type){
 			if (Layers[i].id == ""){
 			Layers[i].setAttribute("id", Type + NameCount);
+			if (Layers[i].tagName == "text"){
+				var myName = Layers[i].innerHTML.substring(0,15).replace(" ","_");
+				if(!document.getElementById(myName)){
+					Layers[i].setAttribute("id",myName);
+				}
+			}
+			
 			NameCount += 1;}
 		}
 		if (Layers[i].children.length > 0){NameChildren(Layers[i],Type);}
@@ -844,7 +851,6 @@ function setGrp(){
 		else{
 		getLayers(document.getElementById("imageArea"))
 		SaveState();}
-
 }
 function SetInt(){
 	//find each checked box
