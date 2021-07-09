@@ -343,11 +343,11 @@ function NameChildren(Layer, Type){
 
 function addChildren(Parent, List){
 	let layers = Parent.children;
-	console.log(layers)
+	
 	for (var i = 0; i < layers.length; i++) {
-		console.log(layers[i]);
+	
 		if (layers[i].id) {
-			console.log(layers[i]);
+			
 			CheckCount += 1
 			let NewLayer = document.createElement("li");
 			let LayerBox = document.createElement("input");
