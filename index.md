@@ -263,12 +263,12 @@ function addScript(imageArea) {
 	var defzone = document.getElementsByTagName("defs")[0];
 	MyStyle = document.createElement("style");
 	MyStyle.setAttribute("type", "text/css")
-	MyStyle.innerHTML = "#printKey{display: none;} @media print{#printKey{display: inline;}}.FeatureGroup :not(text){opacity:0;} *:focus{outline: 0px solid transparent;} .FeatureGroup:hover :not(text){ opacity:" + (document.getElementById("fgoSet").value / 2 ) + ";} .FeatureGroup:focus :not(text){opacity:" + document.getElementById("fgoSet").value + ";} .Description {font-size: " + document.getElementById("DescSizer").value + "px; font-family: OpenSans, Open Sans;}";
+	MyStyle.innerHTML = "#printKey{display: none;} @media print{#printKey{display: inline;}}.FeatureGroup :not(text, tspan){opacity:0;} *:focus{outline: 0px solid transparent;} .FeatureGroup:hover :not(text, tspan){ opacity:" + (document.getElementById("fgoSet").value / 2 ) + ";} .FeatureGroup:focus :not(text, tspan){opacity:" + document.getElementById("fgoSet").value + ";} .Description {font-size: " + document.getElementById("DescSizer").value + "px; font-family: OpenSans, Open Sans;}";
 	defzone.appendChild(MyStyle);
 }
 
 function svgRestyle(event){
-	let NewStyle = "#printKey{display: none;} @media print{#printKey{display: inline;}}.FeatureGroup :not(text){opacity:0;} *:focus{outline: 0px solid transparent;} .FeatureGroup:hover :not(text){ opacity:" + (document.getElementById("fgoSet").value / 2 ) + ";} .FeatureGroup:focus :not(text){opacity:" + document.getElementById("fgoSet").value + ";} .Description {font-size: " + document.getElementById("DescSizer").value + "px; font-family: OpenSans, Open Sans;}";
+	let NewStyle = "#printKey{display: none;} @media print{#printKey{display: inline;}}.FeatureGroup :not(text, tspan){opacity:0;} *:focus{outline: 0px solid transparent;} .FeatureGroup:hover :not(text, tspan){ opacity:" + (document.getElementById("fgoSet").value / 2 ) + ";} .FeatureGroup:focus :not(text, tspan){opacity:" + document.getElementById("fgoSet").value + ";} .Description {font-size: " + document.getElementById("DescSizer").value + "px; font-family: OpenSans, Open Sans;}";
 	MyStyle.innerHTML = NewStyle;
 }
 
@@ -490,7 +490,7 @@ function PieGraph(){
 	NewGraph.setAttribute("viewBox", "0 0 " + width + " " + height);
 	var NewDefs = document.createElement("defs");
 	var NewStyle = document.createElement("Style");
-	NewStyle.innerHTML = ".under {fill: #263c53; stroke:black;} .title{font-size:" + title + "px;}.Axis{font-size:" + axis + "px;} .text{font-size: " + text+ "px;} .over{fill: white; font-size: " + axis + "px;} .feature{fill:#008099;} .FeatureGroup :not(text){opacity:0;} *:focus{outline: 0px solid transparent;} .FeatureGroup:hover :not(text){ opacity:0.5;} .FeatureGroup:focus {opacity:1;} *{font-family: OpenSans, Open Sans;} .label{font-size: " + text + "px; text-align: center; display: vertical-align: middle;} .Wlabel{color: white; font-size: " + text + "px; text-align: center; padding-top: 2em;} .Opaque {opacity:1;} p{opacity:1;}; foreignObject{opacity:1;}";
+	NewStyle.innerHTML = ".under {fill: #263c53; stroke:black;} .title{font-size:" + title + "px;}.Axis{font-size:" + axis + "px;} .text{font-size: " + text+ "px;} .over{fill: white; font-size: " + axis + "px;} .feature{fill:#008099;} .FeatureGroup :not(text, tspan){opacity:0;} *:focus{outline: 0px solid transparent;} .FeatureGroup:hover :not(text, tspan){ opacity:0.5;} .FeatureGroup:focus {opacity:1;} *{font-family: OpenSans, Open Sans;} .label{font-size: " + text + "px; text-align: center; display: vertical-align: middle;} .Wlabel{color: white; font-size: " + text + "px; text-align: center; padding-top: 2em;} .Opaque {opacity:1;} p{opacity:1;}; foreignObject{opacity:1;}";
 	NewGraph.appendChild(NewDefs);
 	NewDefs.appendChild(NewStyle);
 	Area.appendChild(NewGraph);
@@ -569,7 +569,7 @@ function BarGraph(){
 	NewGraph.setAttribute("viewBox", "0 0 " + width + " " + height);
 	var NewDefs = document.createElement("defs");
 	var NewStyle = document.createElement("Style");
-	NewStyle.innerHTML = ".under {fill: #263c53;} .title{font-size:" + title + "px;}.Axis{font-size:" + axis + "px;} .text{font-size: " + text+ "px;} .over{fill: white; font-size: " + axis + "px;} .feature{fill:#008099;} .FeatureGroup :not(text){opacity:0;} *:focus{outline: 0px solid transparent;} .FeatureGroup:hover :not(text){ opacity:0.5;} .FeatureGroup:focus {opacity:1;} *{font-family: OpenSans, Open Sans;} .label{font-size: " + text + "px; text-align: center;} .Wlabel{color: white; font-size: " + text + "px; text-align: center; padding-top: 2em;} .Opaque {opacity:1;} p{opacity:1;}; foreignObject{opacity:1;}";
+	NewStyle.innerHTML = ".under {fill: #263c53;} .title{font-size:" + title + "px;}.Axis{font-size:" + axis + "px;} .text{font-size: " + text+ "px;} .over{fill: white; font-size: " + axis + "px;} .feature{fill:#008099;} .FeatureGroup :not(text, tspan){opacity:0;} *:focus{outline: 0px solid transparent;} .FeatureGroup:hover :not(text, tspan){ opacity:0.5;} .FeatureGroup:focus {opacity:1;} *{font-family: OpenSans, Open Sans;} .label{font-size: " + text + "px; text-align: center;} .Wlabel{color: white; font-size: " + text + "px; text-align: center; padding-top: 2em;} .Opaque {opacity:1;} p{opacity:1;}; foreignObject{opacity:1;}";
 	NewGraph.appendChild(NewDefs);
 	NewDefs.appendChild(NewStyle);
 	Area.appendChild(NewGraph);
