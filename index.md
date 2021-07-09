@@ -57,6 +57,7 @@
 	<input type="text" id="ManDesc" name="ManDesc" onkeydown="AppDesc()" ><br>
 	<input type="button" value="Name Group Layers" onkeypress="NameGroups()" onclick="NameGroups()" /><br>
 	<input type="button" value="Name Rectangles" onkeypress="NameRects()" onclick="NameRects()" /><br>	
+	<input type="button" value="Name Text Layers" onkeypress="NameText()" onclick="NameText()" /><br>	
 </div>
 <div id="imageArea" class="imageArea"></div>
 </div>
@@ -325,6 +326,13 @@ function NameRects(){
 	NameChildren(document.getElementById("imageArea"),"rect");	
 	getLayers(document.getElementById("imageArea"));
 }
+
+function NameText(){
+	NameCount = 1;
+	NameChildren(document.getElementById("imageArea"),"text");	
+	getLayers(document.getElementById("imageArea"));
+}
+
 function NameChildren(Layer, Type){
 
 	var Layers = Layer.children;
