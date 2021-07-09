@@ -51,6 +51,8 @@
 <input type="button" value="Make Description Area" onkeypress="SetDesc()" onclick="SetDesc()" />
 <br>
 <input type="button" value="Make Interactive" onkeypress="SetInt()" onclick="SetInt()" /><br>
+<input type="button" value="Make Group" onkeypress="setGrp()" onclick="setGrp()" /><br>
+
 	<label for="ManText">Change Text:</label><br>
 	<input type="text" id="ManText" name="ManText" onkeydown="AppText()" ><br>
 	<label for="ManDesc">Manual Description:</label><br>
@@ -58,6 +60,7 @@
 	<input type="button" value="Name Group Layers" onkeypress="NameGroups()" onclick="NameGroups()" /><br>
 	<input type="button" value="Name Rectangles" onkeypress="NameRects()" onclick="NameRects()" /><br>	
 	<input type="button" value="Name Text Layers" onkeypress="NameText()" onclick="NameText()" /><br>	
+	
 </div>
 <div id="imageArea" class="imageArea"></div>
 </div>
@@ -162,7 +165,7 @@ var HaveSVG = false;
 var HaveCSV = false;
 var filename;
 var DefDesc = "Select any item for more information.";
-var CheckList = [];
+var checkList = [];
 var LabelList = [];
 var AriaValue = "true";
 var ActionHistory = [];
@@ -367,7 +370,7 @@ function addChildren(Parent, List){
 			LayerLabel.innerHTML = layers[i].id;
 			List.appendChild(NewLayer);
 			NewLayer.appendChild(LayerBox);
-			CheckList[CheckCount] = (LayerBox);
+			checkList[CheckCount] = (LayerBox);
 			LabelList[CheckCount] = (LayerLabel);
 			NewLayer.appendChild(LayerLabel);
 			if (typeof layers[i].firstElementChild  != "undefined"){
@@ -394,7 +397,7 @@ function cleanAttributes(image){
 
 function getLayers(Image) {
 	removeAllChildNodes(layerList);
-	CheckList = [];
+	checkList = [];
 	LabelList = [];
 	CheckCount = -1;
 	addChildren(Image.firstChild, layerList);
@@ -429,25 +432,25 @@ function applyCSV() {
 	var features = document.getElementById("listArea").innerHTML;
 	var FeatureList = $.csv.toArrays(features);
 	var i;
-	var ThisLayer;
+	var thisLayer;
 	var MyDesc;
 	for (i = 0; i < FeatureList.length; i++) {
 		if (typeof document.getElementById(FeatureList[i][0]) != "undefined"){
-			ThisLayer = document.getElementById(FeatureList[i][0]);
+			thisLayer = document.getElementById(FeatureList[i][0]);
 			//tabindex='0' onkeypress="displayDescription(this)" onclick="displayDescription(this), focus()" focusable="true" class="FeatureGroup"
-			ThisLayer.setAttribute("tabindex","0");
-			ThisLayer.setAttribute("onkeypress","displayDescription(this)");
-			ThisLayer.setAttribute("onclick","displayDescription(this), focus()");
-			ThisLayer.setAttribute("focusable","true");
-			ThisLayer.setAttribute("class","FeatureGroup");
-			ThisLayer.setAttribute("role","button");
-			if (ThisLayer.getElementsByTagName("text").length < 1) {
-				ThisLayer.setAttribute("title", ThisLayer.id.replace("_", " "));
+			thisLayer.setAttribute("tabindex","0");
+			thisLayer.setAttribute("onkeypress","displayDescription(this)");
+			thisLayer.setAttribute("onclick","displayDescription(this), focus()");
+			thisLayer.setAttribute("focusable","true");
+			thisLayer.setAttribute("class","FeatureGroup");
+			thisLayer.setAttribute("role","button");
+			if (thisLayer.getElementsByTagName("text").length < 1) {
+				thisLayer.setAttribute("title", thisLayer.id.replace("_", " "));
 			}
 			MyDesc = document.createElement("Desc");
 			MyDesc.setAttribute("aria-hidden", AriaValue);
 			MyDesc.innerHTML = FeatureList[i][1];
-			ThisLayer.appendChild(MyDesc);
+			thisLayer.appendChild(MyDesc);
 			
 			
 		}
@@ -775,14 +778,14 @@ var DescP;
 
 function SetDesc(){
 	//find each checked box
-	var AnyCheck = false;
+	var anyCheck = false;
 	var MultiCheck = false;
 	var Image = document.getElementById("imageArea");
 	var DescLayer;
-	for (var i = 0; i < CheckList.length; i++) {
-		if(CheckList[i].checked){	
-			if (AnyCheck == true){MultiCheck = true;}
-			AnyCheck = true;
+	for (var i = 0; i < checkList.length; i++) {
+		if(checkList[i].checked){	
+			if (anyCheck == true){MultiCheck = true;}
+			anyCheck = true;
 			//find that layer
 			DescLayer = document.getElementById(LabelList[i].innerHTML);
 			// set layer id
@@ -799,7 +802,7 @@ function SetDesc(){
 			
 	}
 	if (MultiCheck == true){alert("Please select only one layer");}
-	else if (AnyCheck == false){alert("No layers selected");}
+	else if (anyCheck == false){alert("No layers selected");}
 	else if (DescLayer.hasAttribute("x")){
 			var replacement = document.createElementNS('http://www.w3.org/2000/svg',"foreignObject");
 			DescP = document.createElement("p")
@@ -822,35 +825,56 @@ function SetDesc(){
 	else {alert("Layer is not a rectangle");}
 }
 
+function setGrp(){
+	//find each checked box
+	var newGroup;
+	var anyCheck = false;
+	for (var i = 0; i < checkList.length; i++) {
+		if(checkList[i].checked){	
+			var thisLayer = document.getElementById(LabelList[i].innerHTML);
+			if (anyCheck == false){
+				newGroup = document.createElement("g")
+				thisLayer.parentElement.insertBefore(newGroup, thisLayer);
+				newGroup.id = "g" + document.getElementsByTagName("g").length;
+			}
+			anyCheck = true;
+			newGroup.appendChild(thisLayer);
+			}}
+		if (anyCheck == false){alert("No layers selected");}
+		else{
+		getLayers(document.getElementById("imageArea"))
+		SaveState();}
+
+}
 function SetInt(){
 	//find each checked box
-	var AnyCheck = false;
-	for (var i = 0; i < CheckList.length; i++) {
-		if(CheckList[i].checked){	
-			AnyCheck = true;
-			var ThisLayer = document.getElementById(LabelList[i].innerHTML);
-			ThisLayer.setAttribute("tabindex","0");
-			ThisLayer.setAttribute("onkeypress","displayDescription(this)");
-			ThisLayer.setAttribute("onclick","displayDescription(this), focus()");
-			ThisLayer.setAttribute("focusable","true");
-			ThisLayer.setAttribute("class","FeatureGroup");
+	var anyCheck = false;
+	for (var i = 0; i < checkList.length; i++) {
+		if(checkList[i].checked){	
+			anyCheck = true;
+			var thisLayer = document.getElementById(LabelList[i].innerHTML);
+			thisLayer.setAttribute("tabindex","0");
+			thisLayer.setAttribute("onkeypress","displayDescription(this)");
+			thisLayer.setAttribute("onclick","displayDescription(this), focus()");
+			thisLayer.setAttribute("focusable","true");
+			thisLayer.setAttribute("class","FeatureGroup");
 			
 			
 			
 			}}
-		if (AnyCheck == false){alert("No layers selected");}
+		if (anyCheck == false){alert("No layers selected");}
 		else{SaveState();}
 }
 
 function AppDesc(evt){
 	//find each checked box
 		if( event.key === 'Enter' ) {
-	var AnyCheck = false;
-	for (var i = 0; i < CheckList.length; i++) {
-		if(CheckList[i].checked){	
-			var ThisLayer = document.getElementById(LabelList[i].innerHTML);
-			AnyCheck = true;
-			var ChildList = ThisLayer.children; 
+	var anyCheck = false;
+	for (var i = 0; i < checkList.length; i++) {
+		if(checkList[i].checked){	
+			var thisLayer = document.getElementById(LabelList[i].innerHTML);
+			anyCheck = true;
+			var ChildList = thisLayer.children; 
 			var HasDesc = false;
 			var MyDesc;
 			for (var c = 0; c < ChildList.length; c++){
@@ -859,40 +883,40 @@ function AppDesc(evt){
 			if (HasDesc == false){	MyDesc= document.createElement("Desc");}
 			MyDesc.setAttribute("aria-hidden", AriaValue);
 			MyDesc.innerHTML = document.getElementById("ManDesc").value;
-			ThisLayer.appendChild(MyDesc);
+			thisLayer.appendChild(MyDesc);
 
 			
 			}}
-		if (AnyCheck == false){alert("No layers selected");}
+		if (anyCheck == false){alert("No layers selected");}
 		else{SaveState();}
 }		}
 function AppText(evt){
 	//find each checked box
 	if( event.key === 'Enter' ) {
-	var AnyCheck = false;
-	for (var i = 0; i < CheckList.length; i++) {
-		if(CheckList[i].checked){	
-			var ThisLayer = document.getElementById(LabelList[i].innerHTML);
-			if (ThisLayer.tagName.toLowerCase() == "text"){
-				AnyCheck = true;
-			ThisLayer.innerHTML = document.getElementById("ManText").value;}			
-			else if (ThisLayer.tagName.toLowerCase() == "foreignobject"){
-				AnyCheck = true;
-				ThisLayer.firstChild.innerHTML = document.getElementById("ManText").value;}			
+	var anyCheck = false;
+	for (var i = 0; i < checkList.length; i++) {
+		if(checkList[i].checked){	
+			var thisLayer = document.getElementById(LabelList[i].innerHTML);
+			if (thisLayer.tagName.toLowerCase() == "text"){
+				anyCheck = true;
+			thisLayer.innerHTML = document.getElementById("ManText").value;}			
+			else if (thisLayer.tagName.toLowerCase() == "foreignobject"){
+				anyCheck = true;
+				thisLayer.firstChild.innerHTML = document.getElementById("ManText").value;}			
 			}
 			}
-		if (AnyCheck == false){alert("No text layers selected");}
+		if (anyCheck == false){alert("No text layers selected");}
 		else{SaveState();}
 }		}
 
 
 function ListTemplate(){
 	//find each checked box
-	var AnyCheck = false;
-	for (var i = 0; i < CheckList.length; i++) {
-		if(CheckList[i].checked){	
-			AnyCheck = true;}}
-		if (AnyCheck == false){alert("No layers selected");}
+	var anyCheck = false;
+	for (var i = 0; i < checkList.length; i++) {
+		if(checkList[i].checked){	
+			anyCheck = true;}}
+		if (anyCheck == false){alert("No layers selected");}
 		else{SaveState();}
 }			
 
