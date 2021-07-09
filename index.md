@@ -308,8 +308,8 @@ function readFileContent(file) {
 }
 
 function removeAllChildNodes(parent) {
-	while (parent.firstChild) {
-		parent.removeChild(parent.firstChild);
+	while (parent.firstElementChild) {
+		parent.removeChild(parent.firstElementChild);
 	}
 }
 var CheckCount = -1;
@@ -343,8 +343,11 @@ function NameChildren(Layer, Type){
 
 function addChildren(Parent, List){
 	let layers = Parent.children;
+	console.log(layers)
 	for (var i = 0; i < layers.length; i++) {
+		console.log(layers[i]);
 		if (layers[i].id) {
+			console.log(layers[i]);
 			CheckCount += 1
 			let NewLayer = document.createElement("li");
 			let LayerBox = document.createElement("input");
@@ -359,14 +362,14 @@ function addChildren(Parent, List){
 			CheckList[CheckCount] = (LayerBox);
 			LabelList[CheckCount] = (LayerLabel);
 			NewLayer.appendChild(LayerLabel);
-			if (typeof layers[i].firstChild  != "undefined"){
+			if (typeof layers[i].firstElementChild  != "undefined"){
 				let NewSublist = document.createElement("ul");
 				List.appendChild(NewSublist);
 				addChildren(layers[i], NewSublist);}
 		}
 		
 	}
-	if (List.children.length  == 0){List.parentNode.removeChild(List);}
+
 }
 
 function cleanAttributes(image){
@@ -441,6 +444,8 @@ function applyCSV() {
 			
 		}
 	}}
+	
+	
 function MakeGraph(){
 	if (document.getElementById("GraphType").value == "Pie"){
 	PieGraph();}
