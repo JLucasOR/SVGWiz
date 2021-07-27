@@ -293,11 +293,11 @@ function addScript(imageArea) {
 
 function svgRestyle(event){
 	if (showLabel){
-	let NewStyle = "#printKey{display: none;} @media print{#printKey{display: inline;}}.FeatureGroup :not(text, tspan){opacity:0;} *:focus{outline: 0px solid transparent;} .FeatureGroup:hover :not(text, tspan){ opacity:" + (document.getElementById("fgoSet").value / 2 ) + ";} .FeatureGroup:focus :not(text, tspan){opacity:" + document.getElementById("fgoSet").value + ";} .Description {font-size: " + document.getElementById("DescSizer").value + "px; font-family: OpenSans, Open Sans;}"; }
-	else{
-	let NewStyle = "#printKey{display: none;} @media print{#printKey{display: inline;}}.FeatureGroup {opacity:0;} *:focus{outline: 0px solid transparent;} .FeatureGroup:hover { opacity:" + (document.getElementById("fgoSet").value / 2 ) + ";} .FeatureGroup:focus {opacity:" + document.getElementById("fgoSet").value + ";} .Description {font-size: " + document.getElementById("DescSizer").value + "px; font-family: OpenSans, Open Sans;} @media print{.FeatureGroup{opacity:1;}"; 
+	MyStyle.innerHTML = "#printKey{display: none;} @media print{#printKey{display: inline;}}.FeatureGroup :not(text, tspan){opacity:0;} *:focus{outline: 0px solid transparent;} .FeatureGroup:hover :not(text, tspan){ opacity:" + (document.getElementById("fgoSet").value / 2 ) + ";} .FeatureGroup:focus :not(text, tspan){opacity:" + document.getElementById("fgoSet").value + ";} .Description {font-size: " + document.getElementById("DescSizer").value + "px; font-family: OpenSans, Open Sans;}"; 
 	}
-	MyStyle.innerHTML = NewStyle;
+	else{
+	MyStyle.innerHTML = "#printKey{display: none;} @media print{#printKey{display: inline;}}.FeatureGroup {opacity:0;} *:focus{outline: 0px solid transparent;} .FeatureGroup:hover { opacity:" + (document.getElementById("fgoSet").value / 2 ) + ";} .FeatureGroup:focus {opacity:" + document.getElementById("fgoSet").value + ";} .Description {font-size: " + document.getElementById("DescSizer").value + "px; font-family: OpenSans, Open Sans;} @media print{.FeatureGroup{opacity:1;}"; 
+	}
 }
 
 
