@@ -37,8 +37,8 @@
   <option value="Hidden">Screen-reader Only</option>
 </select>
 <select name="labelStyle" id="labelStyle">
-  <option value="Visible">Labels Always Show</option>
-  <option value="Hidden">Hide Interactive Text</option>
+  <option value="labelShow">Labels Always Show</option>
+  <option value="hideLabel">Hide Interactive Text</option>
 </select>
 	<label for="DescSizer">Description Font Size:</label>
 	<input type="number" id="DescSizer" value="16" style="width:4em;" name="DescSizer">
@@ -217,7 +217,7 @@ function DescToggle (event) {
 }
 
 function labelToggle (event) {
-	if (document.getElementById("labelStyle").value = "Hidden"){
+	if (document.getElementById("labelStyle").value = "hideLabel"){
 		showLabel = false;
 	}
 	else {
