@@ -13,7 +13,7 @@
 <h2>Wiz your SVG</h2>
 <p> To apply descriptions to an individual svg, prepare a csv with layer names in the first column and descriptions in the second. If you are using an area for your description text outside of your svg, give it the ID [filename]Desc and the attribute aria-live="assertive". For Example, an input file originally named Fabaceae_A.svg would require a description area with the attributes id="Fabaceae_ADesc" aria-live="assertive". </p>
 
-<div class=Toolbar>
+<div class="Toolbar">
 <label for="Upload">Select an SVG</label>
 <input accept=".svg" type="file" name="Upload" id="Upload" />
 <label for="UpCSV">Add a CSV</label>
@@ -29,23 +29,25 @@
 <input type="button" value="Save" onkeypress="download()" onclick="download()" />
 </div>
 
-<div class=Toolbar> 
+<div class="Toolbar"> 
 <input type="button" value="Undo" onkeypress="Undo()" onclick="Undo()" />
 <input type="button" value="Redo" onkeypress="Redo()" onclick="Redo()" />
-<select name="DescType" id="DescType">
-  <option value="Visible">Visible Descriptions</option>
-  <option value="Hidden">Screen-reader Only</option>
-</select>
 <select name="labelStyle" id="labelStyle">
   <option value="labelShow">Labels Always Show</option>
   <option value="hideLabel">Hide Interactive Text</option>
+</select>
+	<label for="fgoSet">Interactive Opacity:</label>
+	<input type="text" id="fgoSet" value="1" style="width:4em;" name="fgoSet">
+</div>
+<div class="Toolbar" id="descToolbar"> 
+<select name="DescType" id="DescType">
+  <option value="Visible">Visible Descriptions</option>
+  <option value="Hidden">Screen-reader Only</option>
 </select>
 	<label for="DescSizer">Description Font Size:</label>
 	<input type="number" id="DescSizer" value="16" style="width:4em;" name="DescSizer">
 	<label for="DescSet">Starting Description:</label>
 	<input type="text" id="DescSet" value="Select any item for more information." name="DescSet">
-	<label for="fgoSet">Interactive Opacity:</label>
-	<input type="text" id="fgoSet" value="1" style="width:4em;" name="fgoSet">
 	
 </div>
 <div class="editArea">
