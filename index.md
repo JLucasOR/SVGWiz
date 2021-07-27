@@ -36,6 +36,10 @@
   <option value="Visible">Visible Descriptions</option>
   <option value="Hidden">Screen-reader Only</option>
 </select>
+<select name="labelStyle" id="labelStyle">
+  <option value="Visible">Labels Always Show</option>
+  <option value="Hidden">Hide Interactive Text</option>
+</select>
 	<label for="DescSizer">Description Font Size:</label>
 	<input type="number" id="DescSizer" value="16" style="width:4em;" name="DescSizer">
 	<label for="DescSet">Starting Description:</label>
@@ -170,9 +174,12 @@ var LabelList = [];
 var AriaValue = "true";
 var ActionHistory = [];
 var ActionCount = -1;
+var showLabel = true;
+
 document.getElementById('Upload').addEventListener('change', getFile);
 document.getElementById('UpCSV').addEventListener('change', getCSV);
 document.getElementById('DescType').addEventListener('input', DescToggle);
+document.getElementById('labelStyle').addEventListener('input', labelToggle);
 document.getElementById('DescSizer').addEventListener('input', svgRestyle);
 document.getElementById('DescSet').addEventListener('input', DescSetter);
 document.getElementById('fgoSet').addEventListener('input', svgRestyle);
@@ -208,6 +215,18 @@ function DescToggle (event) {
 	ToggleArias();
 	SaveState();
 }
+
+function labelToggle (event) {
+	if (document.getElementById("labelStyle").value = "Hidden"){
+		showLabel = false;
+	}
+	else {
+		showLabel =  true;
+	}
+	svgRestyle(event);
+	SaveState();
+}
+
 
 function ToggleArias(){
 	var descList = document.getElementsByTagName("desc");
@@ -263,12 +282,21 @@ function addScript(imageArea) {
 	var defzone = document.getElementsByTagName("defs")[0];
 	MyStyle = document.createElement("style");
 	MyStyle.setAttribute("type", "text/css")
+	if (showLabel){
 	MyStyle.innerHTML = "#printKey{display: none;} @media print{#printKey{display: inline;}}.FeatureGroup :not(text, tspan){opacity:0;} *:focus{outline: 0px solid transparent;} .FeatureGroup:hover :not(text, tspan){ opacity:" + (document.getElementById("fgoSet").value / 2 ) + ";} .FeatureGroup:focus :not(text, tspan){opacity:" + document.getElementById("fgoSet").value + ";} .Description {font-size: " + document.getElementById("DescSizer").value + "px; font-family: OpenSans, Open Sans;}";
+	}
+	else {
+	MyStyle.innerHTML = "#printKey{display: none;} @media print{#printKey{display: inline;}}.FeatureGroup{opacity:0;} *:focus{outline: 0px solid transparent;} .FeatureGroup:hover{ opacity:" + (document.getElementById("fgoSet").value / 2 ) + ";} .FeatureGroup:focus {opacity:" + document.getElementById("fgoSet").value + ";} .Description {font-size: " + document.getElementById("DescSizer").value + "px; font-family: OpenSans, Open Sans;} @media print{.FeatureGroup{opacity:1;}";
+	}
 	defzone.appendChild(MyStyle);
 }
 
 function svgRestyle(event){
-	let NewStyle = "#printKey{display: none;} @media print{#printKey{display: inline;}}.FeatureGroup :not(text, tspan){opacity:0;} *:focus{outline: 0px solid transparent;} .FeatureGroup:hover :not(text, tspan){ opacity:" + (document.getElementById("fgoSet").value / 2 ) + ";} .FeatureGroup:focus :not(text, tspan){opacity:" + document.getElementById("fgoSet").value + ";} .Description {font-size: " + document.getElementById("DescSizer").value + "px; font-family: OpenSans, Open Sans;}";
+	if (showLabel){
+	let NewStyle = "#printKey{display: none;} @media print{#printKey{display: inline;}}.FeatureGroup :not(text, tspan){opacity:0;} *:focus{outline: 0px solid transparent;} .FeatureGroup:hover :not(text, tspan){ opacity:" + (document.getElementById("fgoSet").value / 2 ) + ";} .FeatureGroup:focus :not(text, tspan){opacity:" + document.getElementById("fgoSet").value + ";} .Description {font-size: " + document.getElementById("DescSizer").value + "px; font-family: OpenSans, Open Sans;}"; }
+	else{
+	let NewStyle = "#printKey{display: none;} @media print{#printKey{display: inline;}}.FeatureGroup {opacity:0;} *:focus{outline: 0px solid transparent;} .FeatureGroup:hover { opacity:" + (document.getElementById("fgoSet").value / 2 ) + ";} .FeatureGroup:focus {opacity:" + document.getElementById("fgoSet").value + ";} .Description {font-size: " + document.getElementById("DescSizer").value + "px; font-family: OpenSans, Open Sans;} @media print{.FeatureGroup{opacity:1;}"; 
+	}
 	MyStyle.innerHTML = NewStyle;
 }
 
@@ -392,13 +420,14 @@ function addChildren(Parent, List){
 
 function cleanAttributes(image){
 	if (!image.firstElementChild.getAttribute("viewBox")){
+		//powerpoint file
 		var x = image.firstElementChild.getAttribute("width");
 		var y = image.firstElementChild.getAttribute("height");
 		var viewb = "0 0 " + x + " " + y;
 		image.firstElementChild.setAttribute("viewBox", viewb);
-		image.firstElementChild.removeAttribute("width");
-		image.firstElementChild.removeAttribute("height");
 	}
+	image.firstElementChild.removeAttribute("width");
+	image.firstElementChild.removeAttribute("height");
 }
 
 
