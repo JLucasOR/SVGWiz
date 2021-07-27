@@ -208,7 +208,7 @@ function Redo(){
 
 
 function DescToggle (event) {
-	if (document.getElementById("DescType").value = "Hidden"){
+	if (document.getElementById("DescType").value == "Hidden"){
 		AriaValue = "false"
 	}
 	else {AriaValue = "true"}
@@ -217,7 +217,7 @@ function DescToggle (event) {
 }
 
 function labelToggle (event) {
-	if (document.getElementById("labelStyle").value = "hideLabel"){
+	if (document.getElementById("labelStyle").value == "hideLabel"){
 		showLabel = false;
 	}
 	else {
