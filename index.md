@@ -264,6 +264,7 @@ function getFile(event) {
 		}
 		filename = filename.split(".")[0];
 		
+		
 		var Area = document.getElementById("imageArea");
 		placeSVGContent(Area, input.files[0]);
 
@@ -448,7 +449,7 @@ function download() {
 		type: "text"
 	});
 	if (window.navigator.msSaveOrOpenBlob) // IE10+
-		window.navigator.msSaveOrOpenBlob(file, "SVGWizOutput.svg");
+		window.navigator.msSaveOrOpenBlob(file, filename + ".SVGWiz.svg");
 	else { // Others
 		var a = document.createElement("a"),
 			url = URL.createObjectURL(file);
