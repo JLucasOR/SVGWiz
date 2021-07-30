@@ -456,7 +456,7 @@ function download() {
 		var a = document.createElement("a"),
 			url = URL.createObjectURL(file);
 		a.href = url;
-		a.download = "SVGWizOutput.svg";
+		a.download = "filename + ".SVGWiz.svg";
 		document.body.appendChild(a);
 		a.click();
 		setTimeout(function() {
@@ -497,10 +497,20 @@ function applyCSV() {
 	
 	
 function MakeGraph(){
+		var filepath = document.getElementById('UpCSV').value;
+		var startIndex = (filepath.indexOf('\\') >= 0 ? filepath.lastIndexOf('\\') : filepath.lastIndexOf('/'));
+		filename = filepath.substring(startIndex);
+		if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
+			filename = filename.substring(1);
+		}
+		filename = filename.split(".")[0];
+	
 	if (document.getElementById("GraphType").value == "Pie"){
+	filename += "pie"
 	PieGraph();}
 	else{
 	BarGraph();
+	filename += "bar"
 	}
 }
 function PieGraph(){
