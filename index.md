@@ -456,7 +456,7 @@ function download() {
 		var a = document.createElement("a"),
 			url = URL.createObjectURL(file);
 		a.href = url;
-		a.download = "filename + ".SVGWiz.svg";
+		a.download = filename + ".SVGWiz.svg";
 		document.body.appendChild(a);
 		a.click();
 		setTimeout(function() {
