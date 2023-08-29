@@ -310,6 +310,11 @@ function svgRestyle(event){
 
 function placeSVGContent(target, file) {
 	readFileContent(file).then(content => {
+		if(content.substring(0,5) != "<svg "){
+			var lines = content.split('\n');
+			lines.splice(0,1);
+			content = lines.join('\n');
+		};
 		target.innerHTML = content;
 		cleanAttributes(target);
 		getLayers(target);
@@ -322,6 +327,7 @@ function placeSVGContent(target, file) {
 
 	}).catch(error => console.log(error));
 }
+
 
 function placeCSVContent(target, file) {
 	readFileContent(file).then(content => {
