@@ -94,16 +94,17 @@ and limitations under the License.
 	}
 	
 	}
-	.addBreeze g{
+	#grass{
+	transform-origin: bottom;
 	animation: breeze 30s linear forwards infinite
 	}
 	@keyframes breeze{
 	0%{transform: skew(0deg, 0deg);}
-	25%{transform: skew(-5deg, 10deg);}
-	45%{transform: skew(-10deg, 10deg) scaleY(1);}
-	50%{transform: skew(-20deg, 20deg) scaleY();}
-	60%{transform: skew(-10deg, 5deg) scaleY(1);}
-	75%{transform: skew(-5deg, 5deg);}
+	25%{transform: skew(-5deg, 0deg);}
+	45%{transform: skew(-10deg, 0deg) scaleY(1);}
+	50%{transform: skew(-20deg, 0deg) scaleY();}
+	60%{transform: skew(-10deg, 0deg) scaleY(1);}
+	75%{transform: skew(-5deg, 0deg);}
 	100%{transform: skew(0deg, 0deg);}	
 	}
     </style>
@@ -220,7 +221,7 @@ function makeBlade(myGrass){
 	if (dir == 0){ dir = -1;}
 	
 	dd = randStart(dir)
-	myGroup.setAttribute("style", "transform-origin: " + Math.floor(dd.split(" ")[1]) + "px " + Math.floor(dd.split(" ")[2]) + "px;")
+	//myGroup.setAttribute("style", "transform-origin: " + Math.floor(dd.split(" ")[1]) + "px " + Math.floor(dd.split(" ")[2]) + "px;")
 	dc = dd + randCoords(dir)
 	db = dc + randCoords(dir)
 	da = db + randCoords(dir)
@@ -294,7 +295,7 @@ function startDraw(){
 	skyGroup.setAttribute("style","animation: fadeIn " + secs + "s linear forwards"); 
 	dirtGroup.setAttribute("style","animation: fadeIn " + secs + "s linear forwards"); 
 
-	setTimeout(function(){grassGroup.classList.add("addBreeze");}, (dur+1000));
+//	setTimeout(function(){grassGroup.classList.add("addBreeze");}, (dur+1000));
 	
 	for (let i = 0; i < myGrass.length; i++) {
 		myPaths = myGrass[i].getElementsByTagName("path")
