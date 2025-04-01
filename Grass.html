@@ -94,7 +94,7 @@ and limitations under the License.
 	}
 	
 	}
-	#grass g{
+	.addBreeze g{
 	animation: breeze 30s linear forwards infinite
 	}
 	@keyframes breeze{
@@ -294,13 +294,17 @@ function startDraw(){
 	skyGroup.setAttribute("style","animation: fadeIn " + secs + "s linear forwards"); 
 	dirtGroup.setAttribute("style","animation: fadeIn " + secs + "s linear forwards"); 
 
+	setTimeout(function(){grassGroup.classList.add("addBreeze");}, (dur+1000));
 	
 	for (let i = 0; i < myGrass.length; i++) {
 		myPaths = myGrass[i].getElementsByTagName("path")
 	for (let o = 0; o < myPaths.length; o++) {
 	   myPaths[o].setAttribute("style", "stroke-width: " + ((o + 1) * 0.2) + "px; stroke: light-dark(" + dkGreens[Math.floor(Math.random()*dkGreens.length)] + ", " + ltGreens[Math.floor(Math.random()*ltGreens.length)] + "); stroke-opacity: " + (1 - (o * 0.15)))
 	   drawMe(myPaths[o], i, o);
-} } }
+} } 
+
+
+}
 
 function drawMe(myPath, i, o) {
 wTime = 500;
@@ -308,7 +312,7 @@ Math.floor(step = totalGrass / steps);
 for (t = 0; t < steps; t++ ){
 wTime += (maxt - (t * ((maxt - mint)/steps))) * Math.min(Math.max(i - (t * step), 0), step)
 }
-console.log(wTime);
+
 setTimeout(function() { 
 		if( o == 0)  {
 		noteKey =  Math.min(Math.max(Math.floor(i/totalGrass * Object.keys(notes).length) + Math.floor(Math.random() * 6), 1), Object.keys(notes).length);
