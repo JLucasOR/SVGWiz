@@ -45,17 +45,14 @@ margin: auto;
 		stroke-dashoffset: 1; 
 	}  
 
-      .cls-2 {
-        fill: url(#linear-gradient-2);
-      }
 
-      .cls-3 {
-        fill: url(#linear-gradient);
-      }
 	  
     </style>
 
   </defs>
+<g id="grass"></g>
+<g id="dirt"></g>
+<g id="sky"></g>
 
 
 </svg>
@@ -108,7 +105,7 @@ function randCoords(dir){
 	return(" s " + dx + " " + dy + ", " + endx + " " + endy)
  }
 
-function makeBlade(myVect){
+function makeBlade(myGrass){
 	myGroup = document.createElement("g");
 	dir = Math.floor(Math.random() * 2);
 	if (dir == 0){ dir = -1;}
@@ -131,7 +128,7 @@ function makeBlade(myVect){
 	myPath = document.createElement("path");
 	myPath.setAttribute("d", dd);
 	myGroup.appendChild(myPath)
-	myVect.appendChild(myGroup)
+	myGrass.appendChild(myGroup)
 
 }
 	const synth = new Tone.PolySynth(Tone.Synth).toDestination();
@@ -143,10 +140,18 @@ function makeBlade(myVect){
 function startDraw(){
 myVect = document.getElementById("grassVect");
 	totalGrass = document.getElementById("grassCount").value;
+	grassGroup = document.getElementById("grass")
+	myGrass = grassGroup.getElementsByTagName("g")
+	while(myGrass.length > 0){
+		myGrass[0].remove()
+	}
 	for (b = 0; b < totalGrass; b++) {
-	makeBlade(myVect); }
+	makeBlade(grassGroup); }
 	myVect.innerHTML = myVect.innerHTML;
-	myGrass = document.getElementsByTagName("g")
+	grassGroup = document.getElementById("grass")
+	myGrass = grassGroup.getElementsByTagName("g")
+	console.log(myGrass);
+	console.log(myGrass[0]);
 	for (let i = 0; i < myGrass.length; i++) {
 		myPaths = myGrass[i].getElementsByTagName("path")
 	for (let o = 0; o < myPaths.length; o++) {
