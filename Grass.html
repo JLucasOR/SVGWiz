@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>Grass Test</title>
+<style>
+:root {color-scheme: light dark;}
+body{background: light-dark(white, black);}
+p{text-align: center;}
+.grassFrame{
+width: 100%;
+max-width: 1000px;
+margin: auto;
+padding-top: 200px;
+}
+.ctrlFrame{
+width: fit-content;
+margin: auto;
+}
+</style>
+<script src="http://unpkg.com/tone"></script>
+</head>
+<body>
+<div>
+<p>Input how many blades of grass you would like to generate, and then press Start. There will be noise.</p>
+<div class="ctrlFrame">
+<input title="Blades" type="number" id="grassCount" value="600">
+<input type="button" id="start" value="Start" onkeypress="startDraw()"  onclick="startDraw()">
+</div>
+</div>
+<div class="grassFrame">
+
+<svg id="grassVect" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 900 165.76">
+  <defs>
+    <style>
+      path{
+        fill: none;
+		stroke-dasharray: 200; 
+		stroke-dashoffset: 200;
+      }
+	  .drawIn{
+		animation: offset 3s linear forwards	
+	  }
+	@keyframes offset{
+	100% {
+		stroke-dashoffset: 1; 
+	}  
+
+      .cls-2 {
+        fill: url(#linear-gradient-2);
+      }
+
+      .cls-3 {
+        fill: url(#linear-gradient);
+      }
+	  
+    </style>
+
+  </defs>
+
+
+</svg>
+
+</div>
+</body>
+
+<script>
+//start positions:
+// x 0 to 215
+// y 165 to 155
+
+// end positions
+// x offset
+//	min	5
+//	max	50
+// y end
+// 	36.39 to 114.42
+
+//curve points
+ //x between 0.5 and 15 (negative if leftward)
+ //y betwen -10 and -35
+ //x between 0.1 and 20 (negative if leftward)
+ //y betrween -25 and -50
+
+
+
+var dkGreens = ['#667755', '#4d5940', '#333c2a', '#1a1e15', '#4d6633', '#334422', '#1a2211', '#4d7326', '#334d19', '#1a260d', '#4d801a', '#335511', '#1a2a09', '#335e08', '#1a2f04', '#336600', '#1a3300', '#557755', '#405940', '#2a3c2a', '#151e15', '#336633', '#224422', '#112211', '#267326', '#194d19', '#0d260d', '#1a801a', '#115511', '#092a09', '#085e08', '#042f04', '#006600', '#003300', '#557766', '#40594d', '#2a3c33', '#151e1a', '#33664d', '#224433', '#11221a', '#26734d', '#194d33', '#0d261a', '#1a804c', '#115533', '#092a19', '#085e33', '#042f19', '#006633', '#003319', '#557777', '#405959', '#2a3c3c', '#151e1e', '#336666', '#224444', '#112222', '#267373', '#194d4d', '#0d2626', '#1a807f', '#115555', '#092a2a', '#085e5e', '#042f2f', '#006666', '#003333']
+ 
+ var ltGreens = ['#e5eae1', '#ccd4c3', '#b2bfa6', '#99aa88', '#80956a', '#e5eedd', '#ccddbb', '#b2cc99', '#99bb77', '#80aa55', '#668844', '#e5f2d9', '#cce5b2', '#b2d98c', '#99cc66', '#80bf40', '#669933', '#e5f6d4', '#cceeaa', '#b2e67f', '#99dd55', '#80d42b', '#66aa22', '#e5fbd0', '#ccf7a1', '#b3f273', '#99ee44', '#80ea15', '#66bb11', '#4d8c0d', '#e5ffcc', '#ccff99', '#b3ff66', '#99ff33', '#80ff00', '#66cc00', '#4d9900', '#e1eae1', '#c3d4c3', '#a6bfa6', '#88aa88', '#6a956a', '#ddeedd', '#bbddbb', '#99cc99', '#77bb77', '#55aa55', '#448844', '#d9f2d9', '#b2e5b2', '#8cd98c', '#66cc66', '#40bf40', '#339933', '#d4f6d4', '#aaeeaa', '#7fe67f', '#55dd55', '#2bd42b', '#22aa22', '#d0fbd0', '#a1f7a1', '#73f273', '#44ee44', '#15ea15', '#11bb11', '#0d8c0d', '#ccffcc', '#99ff99', '#66ff66', '#33ff33', '#00ff00', '#00cc00', '#009900', '#e1eae5', '#c3d4cc', '#a6bfb2', '#88aa99', '#6a9580', '#ddeee5', '#bbddcc', '#99ccb2', '#77bb99', '#55aa80', '#448866', '#d9f2e5', '#b2e5cc', '#8cd9b2', '#66cc99', '#40bf7f', '#339966', '#d4f6e5', '#aaeecc', '#7fe6b2', '#55dd99', '#2bd47f', '#22aa66', '#d0fbe5', '#a1f7cc', '#73f2b2', '#44ee99', '#15ea7f', '#11bb66', '#0d8c4c', '#ccffe5', '#99ffcc', '#66ffb2', '#33ff99', '#00ff7f', '#00cc66', '#00994c', '#e1eaea', '#c3d4d4', '#a6bfbf', '#88aaaa', '#6a9595', '#ddeeee', '#bbdddd', '#99cccc', '#77bbbb', '#55aaaa', '#448888', '#d9f2f2', '#b2e5e5', '#8cd9d9', '#66cccc', '#40bfbf', '#339999', '#d4f6f6', '#aaeeee', '#7fe6e6', '#55dddd', '#2bd4d4', '#22aaaa', '#d0fbfb', '#a1f7f7', '#73f2f2', '#44eeee', '#15eaea', '#11bbbb', '#0d8c8c', '#ccffff', '#99ffff', '#66ffff', '#33ffff', '#00ffff', '#00cccc', '#009999']
+var notes = {1: 'A2', 2: 'B2', 3: 'C2', 4: 'D2', 5: 'E2', 6: 'F2', 7: 'G2', 8: 'A3', 9: 'B3', 10: 'C3', 11: 'D3', 12: 'E3', 13: 'F3', 14: 'G3', 15: 'A4', 16: 'B4', 17: 'C4', 18: 'D4', 19: 'E4', 20: 'F4', 21: 'G4'}
+ function randStart(dir){
+ 	startx = Math.random() * 900;
+	starty = Math.random() * (165 - 155) + 155;
+ 	dxa = (Math.random() * (5 - 0.5) + 0.5) * (dir * -1);
+	dya = (Math.random() * (12 - 10) + 10)* -1; 
+	endx = (Math.random() * (20) + 0.1) * dir;
+	endy = (Math.random() * (50 - 25) + 25) * -1; 
+	dxb =  (Math.max(dxa, endx) - Math.min(dxa, endx))/2 + Math.min(dxa, endx);
+	dyb = (Math.max(dya, endy) - Math.min(dya, endy))/2 + Math.min(dya, endy);
+	return("M " + startx + " " + starty + " c " + dxa + " " + dya + ", " + dxb + " " + dyb + ", " + endx + " " + endy)
+ }
+var totalGrass;
+
+function randCoords(dir){
+	endx = ((Math.random() * 10) + 5) * dir;
+	endy = ((Math.random() * 25) + 15) * -1; 
+	dx = endx / 2
+	dy = endy / 2
+	return(" s " + dx + " " + dy + ", " + endx + " " + endy)
+ }
+
+function makeBlade(myVect){
+	myGroup = document.createElement("g");
+	dir = Math.floor(Math.random() * 2);
+	if (dir == 0){ dir = -1;}
+
+	dd = randStart(dir)
+	dc = dd + randCoords(dir)
+	db = dc + randCoords(dir)
+	da = db + randCoords(dir)
+
+
+	var myPath = document.createElement("path");
+	myPath.setAttribute("d", da);
+	myGroup.appendChild(myPath)
+	myPath = document.createElement("path");
+	myPath.setAttribute("d", db);
+	myGroup.appendChild(myPath)
+	myPath = document.createElement("path");
+	myPath.setAttribute("d", dc);
+	myGroup.appendChild(myPath)
+	myPath = document.createElement("path");
+	myPath.setAttribute("d", dd);
+	myGroup.appendChild(myPath)
+	myVect.appendChild(myGroup)
+
+}
+	const synth = new Tone.PolySynth(Tone.Synth).toDestination();
+	synth.maxPolyphony = 12;
+	const now = Tone.now();
+	steps = 100
+	maxt = 500
+	mint = 100
+function startDraw(){
+myVect = document.getElementById("grassVect");
+	totalGrass = document.getElementById("grassCount").value;
+	for (b = 0; b < totalGrass; b++) {
+	makeBlade(myVect); }
+	myVect.innerHTML = myVect.innerHTML;
+	myGrass = document.getElementsByTagName("g")
+	for (let i = 0; i < myGrass.length; i++) {
+		myPaths = myGrass[i].getElementsByTagName("path")
+	for (let o = 0; o < myPaths.length; o++) {
+	   myPaths[o].setAttribute("style", "stroke-width: " + ((o + 1) * 0.2) + "px; stroke: light-dark(" + dkGreens[Math.floor(Math.random()*dkGreens.length)] + ", " + ltGreens[Math.floor(Math.random()*ltGreens.length)] + "); stroke-opacity: " + (1 - (o * 0.15)))
+	   drawMe(myPaths[o], i, o);
+} } }
+
+function drawMe(myPath, i, o) {
+wTime = 500;
+Math.floor(step = totalGrass / steps);
+for (t = 0; t < steps; t++ ){
+wTime += (maxt - (t * ((maxt - mint)/steps))) * Math.min(Math.max(i - (t * step), 0), step)
+}
+console.log(wTime);
+setTimeout(function() { 
+		if( o == 0)  {
+		noteKey =  Math.min(Math.max(Math.floor(i/totalGrass * Object.keys(notes).length) + Math.floor(Math.random() * 6), 1), Object.keys(notes).length);
+		myNote = notes[noteKey];
+
+	  if(synth.activeVoices < 8){synth.triggerAttackRelease(myNote, ((Math.floor(Math.random() * 3) * 0.25)+0.25));} }
+	   myPath.classList.add("drawIn");
+}, wTime) ; 
+} 
+
+</script>
+</html>
