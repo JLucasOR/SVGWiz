@@ -94,6 +94,18 @@ and limitations under the License.
 	}
 	
 	}
+	#grass g{
+	animation: breeze 30s linear forwards infinite
+	}
+	@keyframes breeze{
+	0%{transform: skew(0deg, 0deg);}
+	25%{transform: skew(-5deg, 10deg);}
+	45%{transform: skew(-10deg, 10deg) scaleY(1);}
+	50%{transform: skew(-20deg, 20deg) scaleY();}
+	60%{transform: skew(-10deg, 5deg) scaleY(1);}
+	75%{transform: skew(-5deg, 5deg);}
+	100%{transform: skew(0deg, 0deg);}	
+	}
     </style>
     <linearGradient id="skyGradient"  x1="0" x2="0" y1="0" y2="1">
       <stop offset="0" stop-color="black" />
@@ -206,8 +218,9 @@ function makeBlade(myGrass){
 	myGroup = document.createElement("g");
 	dir = Math.floor(Math.random() * 2);
 	if (dir == 0){ dir = -1;}
-
+	
 	dd = randStart(dir)
+	myGroup.setAttribute("style", "transform-origin: " + Math.floor(dd.split(" ")[1]) + "px " + Math.floor(dd.split(" ")[2]) + "px;")
 	dc = dd + randCoords(dir)
 	db = dc + randCoords(dir)
 	da = db + randCoords(dir)
