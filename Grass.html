@@ -84,6 +84,16 @@ and limitations under the License.
 	100% {
 		Opacity: 50%; 
 	}  }	  
+	
+	@keyframes glide{
+	0%{
+	transform: translate(-950px, 0);
+	}
+	100%{
+	transform: translate(900px, 0);
+	}
+	
+	}
     </style>
     <linearGradient id="skyGradient"  x1="0" x2="0" y1="0" y2="1">
       <stop offset="0" stop-color="black" />
@@ -251,12 +261,12 @@ function startDraw(){
 	while(skyBits.length > 0){
 		skyBits[0].remove()
 	}
-	for (d = 0; d < 45; d++){
+	for (d = 0; d < 90; d++){
 	myBit = document.createElement("circle");
 	myBit.setAttribute("cx", Math.floor(Math.random() * 900));
 	myBit.setAttribute("cy", Math.floor(Math.random() * 370));
 	myBit.setAttribute("r", Math.floor(Math.random() * 100) + 20);
-	myBit.setAttribute("style", "opacity: " + (Math.floor(Math.random() * 20) + 10) + "%; fill: light-dark(" +  ltSky[Math.floor(Math.random()*ltSky.length)] + ", " + dkSky[Math.floor(Math.random()*dkSky.length)]);
+	myBit.setAttribute("style", "opacity: " + (Math.floor(Math.random() * 20) + 10) + "%; fill: light-dark(" +  ltSky[Math.floor(Math.random()*ltSky.length)] + ", " + dkSky[Math.floor(Math.random()*dkSky.length)] + "); animation: glide " + (Math.ceil(Math.random() * 240) + 60) + "s linear forwards infinite");
 	skyGroup.appendChild(myBit);
 	}
 	
