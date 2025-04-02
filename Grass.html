@@ -197,7 +197,7 @@ function updateDur() {
 	
  function randStart(dir){
  	startx = Math.random() * 900;
-	starty = Math.random() * 20 + 380;
+	starty = Math.random() * 30 + 380;
  	dxa = (Math.random() * (5 - 0.5) + 0.5) * (dir * -1);
 	dya = (Math.random() * (12 - 10) + 10)* -1; 
 	endx = (Math.random() * (20) + 0.1) * dir;
@@ -221,7 +221,7 @@ function makeBlade(myGrass){
 	if (dir == 0){ dir = -1;}
 	
 	dd = randStart(dir)
-	//myGroup.setAttribute("style", "transform-origin: " + Math.floor(dd.split(" ")[1]) + "px " + Math.floor(dd.split(" ")[2]) + "px;")
+	myGroup.setAttribute("style", "transform-origin: " + Math.floor(dd.split(" ")[1]) + "px " + Math.floor(dd.split(" ")[2]) + "px;")
 	dc = dd + randCoords(dir)
 	db = dc + randCoords(dir)
 	da = db + randCoords(dir)
@@ -256,31 +256,42 @@ function startDraw(){
 
 	skyGroup = document.getElementById("sky")
 	dirtGroup = document.getElementById("dirt")
-	skyGroup.firstElementChild.setAttribute("style", "fill: light-dark(" + ltSky[Math.floor(Math.random()*ltSky.length)] + ", " + dkSky[Math.floor(Math.random() * dkSky.length)] )
-	dirtGroup.firstElementChild.setAttribute("style", "fill: light-dark(" + ltDirt[Math.floor(Math.random()*ltDirt.length)] + ", " + dkDirt[Math.floor(Math.random() * dkDirt.length)] )
+	ltSkyI = Math.floor(Math.random() * ltSky.length);
+	dkSkyI = Math.floor(Math.random() * dkSky.length);
+	skyGroup.firstElementChild.setAttribute("style", "fill: light-dark(" + ltSky[ltSkyI] + ", " + dkSky[dkSkyI] )
+	ltDirtI = Math.floor(Math.random() * ltDirt.length);
+	dkDirtI = Math.floor(Math.random() * dkDirt.length);
+	dirtGroup.firstElementChild.setAttribute("style", "fill: light-dark(" + ltDirt[ltDirtI] + ", " + dkDirt[dkDirtI] )
 	dirtBits = dirtGroup.getElementsByTagName("circle");
 	while(dirtBits.length > 0){
 		dirtBits[0].remove()
 	}
-	for (d = 0; d < 90; d++){
+
+	//prevent bits from matching background
+	myltSkys =	ltSky.toSpliced(ltSkyI,1);
+	mydkSkys =	dkSky.toSpliced(dkSkyI,1);
+	myltDirts =	ltDirt.toSpliced(ltDirtI,1);
+	mydkDirts =	dkDirt.toSpliced(dkDirtI,1);
+	
+	for (d = 0; d < 45; d++){
 	myBit = document.createElement("circle");
 	myBit.setAttribute("cx", Math.floor(Math.random() * 900));
 	myBit.setAttribute("cy", Math.floor(Math.random() * 30 + 370));
 	myBit.setAttribute("r", Math.floor(Math.random() * 50) + 1);
-	myBit.setAttribute("style", "opacity: " + (Math.floor(Math.random() * 40) + 10) + "%; fill: light-dark(" +  ltDirt[Math.floor(Math.random()*ltDirt.length)] + ", " + dkDirt[Math.floor(Math.random()*dkDirt.length)]);
-	dirtGroup.appendChild(myBit);
+	myBit.setAttribute("style", "opacity: " + (Math.floor(Math.random() * 40) + 10) + "%; fill: light-dark(" +  myltDirts[Math.floor(Math.random()*myltDirts.length)] + ", " + mydkDirts[Math.floor(Math.random()*mydkDirts.length)]);
+		dirtGroup.appendChild(myBit);
 	}
 
 	skyBits = skyGroup.getElementsByTagName("circle");
 	while(skyBits.length > 0){
 		skyBits[0].remove()
 	}
-	for (d = 0; d < 90; d++){
+	for (d = 0; d < 15; d++){
 	myBit = document.createElement("circle");
 	myBit.setAttribute("cx", Math.floor(Math.random() * 900));
 	myBit.setAttribute("cy", Math.floor(Math.random() * 370));
 	myBit.setAttribute("r", Math.floor(Math.random() * 100) + 20);
-	myBit.setAttribute("style", "opacity: " + (Math.floor(Math.random() * 20) + 10) + "%; fill: light-dark(" +  ltSky[Math.floor(Math.random()*ltSky.length)] + ", " + dkSky[Math.floor(Math.random()*dkSky.length)] + "); animation: glide " + (Math.ceil(Math.random() * 240) + 60) + "s linear forwards infinite");
+	myBit.setAttribute("style", "opacity: " + (Math.floor(Math.random() * 20) + 10) + "%; fill: light-dark(" +  myltSkys[Math.floor(Math.random()*myltSkys.length)] + ", " + mydkSkys[Math.floor(Math.random()*mydkSkys.length)] + "); animation: glide " + (Math.ceil(Math.random() * 240) + 60) + "s linear forwards infinite");
 	skyGroup.appendChild(myBit);
 	}
 	
