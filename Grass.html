@@ -96,13 +96,13 @@ and limitations under the License.
 	}
 	#grass{
 	transform-origin: bottom;
-	animation: breeze 30s linear forwards infinite
+	animation: breeze 60s linear forwards infinite
 	}
 	@keyframes breeze{
 	0%{transform: skew(0deg, 0deg);}
 	25%{transform: skew(-5deg, 0deg);}
 	45%{transform: skew(-10deg, 0deg) scaleY(1);}
-	50%{transform: skew(-20deg, 0deg) scaleY();}
+	50%{transform: skew(-20deg, 0deg) scaleY(0.9);}
 	60%{transform: skew(-10deg, 0deg) scaleY(1);}
 	75%{transform: skew(-5deg, 0deg);}
 	100%{transform: skew(0deg, 0deg);}	
@@ -218,10 +218,12 @@ function randCoords(dir){
 function makeBlade(myGrass){
 	myGroup = document.createElement("g");
 	dir = Math.floor(Math.random() * 2);
-	if (dir == 0){ dir = -1;}
+	myGroup.setAttribute("class", "grassRight")
+	if (dir == 0){ dir = -1; myGroup.setAttribute("class", "grassLeft")}
 	
 	dd = randStart(dir)
 	myGroup.setAttribute("style", "transform-origin: " + Math.floor(dd.split(" ")[1]) + "px " + Math.floor(dd.split(" ")[2]) + "px;")
+	
 	dc = dd + randCoords(dir)
 	db = dc + randCoords(dir)
 	da = db + randCoords(dir)
