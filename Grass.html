@@ -87,16 +87,16 @@ and limitations under the License.
 	
 	@keyframes glide{
 	0%{
-	transform: translate(-950px, 0);
+	transform: translate(-100px, 0);
 	}
 	100%{
-	transform: translate(900px, 0);
+	transform: translate(1000px, 0);
 	}
 	
 	}
 	#grass{
 	transform-origin: bottom;
-	animation: breeze 60s linear forwards infinite
+
 	}
 	@keyframes breeze{
 	0%{transform: skew(0deg, 0deg);}
@@ -290,10 +290,10 @@ function startDraw(){
 	}
 	for (d = 0; d < 15; d++){
 	myBit = document.createElement("circle");
-	myBit.setAttribute("cx", Math.floor(Math.random() * 900));
-	myBit.setAttribute("cy", Math.floor(Math.random() * 370));
-	myBit.setAttribute("r", Math.floor(Math.random() * 100) + 20);
-	myBit.setAttribute("style", "opacity: " + (Math.floor(Math.random() * 20) + 10) + "%; fill: light-dark(" +  myltSkys[Math.floor(Math.random()*myltSkys.length)] + ", " + mydkSkys[Math.floor(Math.random()*mydkSkys.length)] + "); animation: glide " + (Math.ceil(Math.random() * 240) + 60) + "s linear forwards infinite");
+	myBit.setAttribute("cx", 0);
+	myBit.setAttribute("cy", Math.floor(Math.random() * 150) + 100);
+	myBit.setAttribute("r", Math.floor(Math.random() * 80) + 20);
+	myBit.setAttribute("style", "opacity: " + (Math.floor(Math.random() * 40) + 20) + "%; fill: light-dark(" +  myltSkys[Math.floor(Math.random()*myltSkys.length)] + ", " + mydkSkys[Math.floor(Math.random()*mydkSkys.length)] + "); animation: glide " + (Math.ceil(Math.random() * 240) + 60) + "s linear forwards infinite");
 	skyGroup.appendChild(myBit);
 	}
 	
@@ -336,6 +336,9 @@ setTimeout(function() {
 	   myPath.classList.add("drawIn");
 }, wTime) ; 
 } 
+
+//TODO
+//IF mouse is in grass zone (detect by y) bend grass (detect location by x + radius)
 
 </script>
 </html>
